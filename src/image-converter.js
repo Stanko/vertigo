@@ -90,8 +90,6 @@ class VertigoConverter {
     this.image = new Image(this.size, this.size);
     this.image.src = 'test-images/hello.png';
     this.image.addEventListener('load', this.processImage);
-
-    console.log(this.image);
   }
 
   handleFileInputChange() {
@@ -181,8 +179,6 @@ class VertigoConverter {
       [centerScale]
     ];
 
-    console.log(convertedImage, centerRectCoordinate, centerRectCoordinate, squareSize);
-
     helperRects.push([centerRectCoordinate, centerRectCoordinate, squareSize, squareSize]);
 
     for (let i = 1; i <= this.resolution; i++) {
@@ -210,8 +206,6 @@ class VertigoConverter {
         helperRects.push([x, y, squareSize, squareSize]);
       }
     }
-
-    // console.log(JSON.stringify(convertedImage));
 
     this.ctx.strokeStyle = 'rgba(180, 150, 220, 0.8)';
 

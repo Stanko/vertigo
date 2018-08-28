@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Vertigo</title>
+
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://stanko.github.io//public/favicon/apple-touch-icon.png?v=v3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="https://stanko.github.io//public/favicon/favicon-32x32.png?v=v3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="https://stanko.github.io//public/favicon/favicon-16x16.png?v=v3" />
+    <link rel="manifest" href="https://stanko.github.io//public/favicon/manifest.json?v=v3" />
+    <link rel="mask-icon" href="https://stanko.github.io//public/favicon/safari-pinned-tab.svg?v=v3" color="#e04856" />
+    <link rel="shortcut icon" href="https://stanko.github.io//public/favicon/favicon.ico?v=v3" />
+    <meta name="msapplication-config" content="https://stanko.github.io//public/favicon/browserconfig.xml?v=v3" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <style>
+      body {
+        background: #242528;
+        font-family: Helvetica, Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .Vertigo {
+        max-width: 100%;
+      }
+
+      .Vertigo-dot {
+        fill: #eee;
+        transition: all 1000ms;
+      }
+
+      canvas {
+        width: 500px;
+        height: 500px;
+        position: relative;
+        display: block;
+        max-width: 100%;
+      }
+
+      .Converter {
+        color: #eee;
+      }
+
+      .Converter-main {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .Converter-main svg {
+        display: block;
+        width: 500px;
+        height: 500px;
+      }
+
+      .Converter-ui {
+        display: flex;
+      }
+
+      .Converter-fileInputWrapper {
+        border: 1px solid #555;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .Converter-fileInputWrapper:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .Converter-fileInput {
+        opacity: 0;
+        position: absolute;
+        height: 0;
+        width: 0;
+        left: -99999px;
+        top: -99999px;
+      }
+
+      .Converter-rangeInputWrapper {
+        padding: 12px 15px 8px 15px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+      }
+
+      .Converter-rangeInputWrapper:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .Converter-rangeInput:focus::-webkit-slider-runnable-track,
+      .Converter-rangeInputWrapper:hover .Converter-rangeInput::-webkit-slider-runnable-track {
+        height: 16px;
+      }
+
+      .Converter-rangeInput {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 16px;
+        background: transparent;
+        padding: 0;
+        margin: 5px 0 0;
+      }
+
+      .Converter-rangeInput:focus {
+        outline: none;
+      }
+
+      .Converter-rangeInput::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        position: relative;
+        top: 50%;
+        height: 12px;
+        margin-top: -6px;
+        width: 32px;
+        border-radius: 5px;
+        background: $main-color;
+        cursor: pointer;
+        /* background: #111; */
+        background: rgba(255, 255, 255, 0.5);
+        /* border: 1px solid #555; */
+      }
+
+      .Converter-rangeInput:focus::-webkit-slider-thumb,
+      .Converter-rangeInputWrapper:hover .Converter-rangeInput::-webkit-slider-thumb {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+
+      .Converter-rangeInput::-webkit-slider-runnable-track {
+        width: 100%;
+        cursor: pointer;
+        /* background: #F7F7F9; */
+        border: none;
+        height: 8px;
+        border-radius: 5px;
+        /* border: 1px solid #333; */
+        background: rgba(255, 255, 255, 0.1);
+        transition: height 0.25s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Converter">
+    </div>
+    <script src="lib/demo.js"></script>
+  </body>
+</html>

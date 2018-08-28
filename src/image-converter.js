@@ -145,15 +145,15 @@ class VertigoConverter {
   }
 
   convertBrightness(rectBrightness) {
-    if (rectBrightness < 100) {
-      return 1;
-    } else if (rectBrightness < 200) {
-      return 2;
-    } else {
-      return 4;
-    }
+    // if (rectBrightness < 100) {
+    //   return 1;
+    // } else if (rectBrightness < 200) {
+    //   return 2;
+    // } else {
+    //   return 4;
+    // }
 
-    // return (1 + rectBrightness / 60).toFixed(1);
+    return (1 + rectBrightness / 60).toFixed(1);
   }
 
   processImage() {

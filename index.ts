@@ -6,7 +6,7 @@ import { defaultOptions } from './src/constants';
 
 const svgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-svg');
 const helloImage:HTMLElement = document.querySelector('.TestImage--hello');
-const vertigoFileInput:HTMLInputElement = document.querySelector('.App-fileInput');
+const vertigoFileInput:HTMLInputElement = document.querySelector('.FileInput');
 
 const downloadButton:HTMLAnchorElement = document.querySelector('.Button--download');
 
@@ -24,7 +24,7 @@ function setOptions() {
 }
 
 Object.keys(defaultOptions).forEach(key => {
-  const input:HTMLElement = document.querySelector(`.App-optionsInput--${ key }`);
+  const input:HTMLElement = document.querySelector(`.OptionsInput--${ key }`);
 
   input.addEventListener('change', (e:Event) => {
     setOptions();

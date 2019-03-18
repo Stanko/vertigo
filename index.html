@@ -34,14 +34,16 @@
     </div>
     <div class="Content">
       <div class="SvgWrapper">
-        <div class="SvgWrapper-svg"></div>
+        <div class="SvgWrapper-inner">
+          <div class="SvgWrapper-svg"></div>
+        </div>
       </div>
 
       <div class="Controls">
         <div>
+          <input type="file" class="FileInput" id="file-input" />
           <label class="Button Button--noTopMargin" for="file-input">
             Select file
-            <input type="file" class="App-fileInput" id="file-input" />
           </label>
           <a class="Button Button--download" download="vertigo.svg" href="">Download SVG</a>
         </div>
@@ -72,7 +74,7 @@
         <div>
           <label>Resolution: <span>5 - 50</span></label>
           <input
-            class="App-optionsInput App-optionsInput--resolution"
+            class="OptionsInput OptionsInput--resolution"
             value="25"
             type="range"
             max="50"
@@ -84,7 +86,7 @@
         <div>
           <label>Minimum dot radius: <span>0 - 5</span></label>
           <input
-            class="App-optionsInput App-optionsInput--minimumDotRadius"
+            class="OptionsInput OptionsInput--minimumDotRadius"
             value="1"
             type="range"
             max="5"
@@ -96,7 +98,7 @@
         <div>
           <label>Maximum dot radius: <span>1 - 20</span></label>
           <input
-            class="App-optionsInput App-optionsInput--maximumDotRadius"
+            class="OptionsInput OptionsInput--maximumDotRadius"
             value="5"
             type="range"
             max="20"
@@ -108,7 +110,7 @@
         <div>
           <label>Distance between dots: <span>0 - 20</span></label>
           <input
-            class="App-optionsInput App-optionsInput--distanceBetweenDots"
+            class="OptionsInput OptionsInput--distanceBetweenDots"
             value="2"
             type="range"
             max="20"

@@ -2,33 +2,18 @@
   "name": "vertigo",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/vertigo.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "wp"
+    "start": "parcel index.html",
+    "build": "rm -rf docs && parcel build index.html --out-dir ./docs"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Stanko/vertigo.git"
-  },
-  "keywords": [
-    "display",
-    "circles",
-    "svg",
-    "animation"
-  ],
-  "author": "Stanko",
+  "keywords": [],
+  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Stanko/vertigo/issues"
-  },
-  "homepage": "https://github.com/Stanko/vertigo#readme",
+  "dependencies": {},
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^5.4.0",
-    "webpack": "^4.17.1",
-    "webpack-command": "^0.4.1"
+    "parcel-bundler": "^1.12.0",
+    "typescript": "^3.3.3333"
   }
 }

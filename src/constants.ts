@@ -1,21 +1,27 @@
+// -- Global
+
+export const MAXIMUM_BRIGHTNESS = 255;
+
+// -- Dots
+
 // How many dots are added with each concentric circle
 export const DOT_INCREMENT_STEP:number = 6;
 
-export interface IOptions {
+export interface IDotsOptions {
   resolution: number;
   minimumDotRadius: number;
   maximumDotRadius: number;
   distanceBetweenDots: number;
 };
 
-export interface IOptionsPartial {
+export interface IDotsOptionsPartial {
   resolution?: number;
   minimumDotRadius?: number;
   maximumDotRadius?: number;
   distanceBetweenDots?: number;
 };
 
-export const defaultOptions:IOptions = {
+export const dotsDefaultOptions:IDotsOptions = {
   // Number of concentric circles
   resolution: 25,
   // Minimum dot radius
@@ -26,4 +32,25 @@ export const defaultOptions:IOptions = {
   distanceBetweenDots: 2,
 };
 
-export type TVertigoImage = number[][];
+export type TDotsImage = number[][];
+
+// -- Spiral
+
+export interface ISpiralOptions {
+};
+
+export interface ISpiralOptionsPartial {
+};
+
+export const spiralDefaultOptions:ISpiralOptions = {
+};
+
+
+
+export interface ISpiralSegment {
+  x: number;
+  y: number;
+  width: number;
+};
+
+export type TSpiralImage = ISpiralSegment[];

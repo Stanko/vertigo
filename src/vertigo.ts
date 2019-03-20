@@ -1,14 +1,13 @@
 import {
   DOT_INCREMENT_STEP,
-  IOptions,
-  IOptionsPartial,
-  defaultOptions,
-  TVertigoImage,
+  IDotsOptions,
+  IDotsOptionsPartial,
+  dotsDefaultOptions,
+  TDotsImage,
 } from './constants';
 
+import { createSvg } from './helpers';
 import convertImageToDots from './convert-image-to-dots';
-import { parseConfigFileTextToJson } from 'typescript';
-
 
 // TODO
 //
@@ -22,19 +21,19 @@ interface IDot {
   scale: number;
 };
 
-type TConvertCallback = (convertedImage:TVertigoImage) => void;
+type TConvertCallback = (convertedImage:TDotsImage) => void;
 
 export default class Vertigo {
-  private options:IOptions;
+  private options:IDotsOptions;
   private dots:IDot[][];
   private radiusGrowStep:number;
   private imageURL:string;
 
   public svg:SVGElement;
 
-  constructor(options?:IOptionsPartial) {
+  constructor(options?:IDotsOptionsPartial) {
     this.options = {
-      ...defaultOptions,
+      ...dotsDefaultOptions,
       ...options,
     };
 
@@ -43,17 +42,9 @@ export default class Vertigo {
     const size = this.options.resolution * 2 * this.radiusGrowStep;
     const svgSize = size + this.options.maximumDotRadius * 2;
 
-    this.svg = Vertigo.createSvg(svgSize);
+    this.svg = createSvg(svgSize);
 
     this.generateDots();
-  }
-
-  private static createSvg(svgSize:number, className:string = 'Dots'):SVGElement {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', className);
-    svg.setAttribute('viewBox', `${ svgSize / -2 } ${ svgSize / -2 } ${ svgSize } ${ svgSize }`);
-
-    return svg;
   }
 
   private static createDot(x:string, y:string, dotRadius:number, className = 'Dots-dot'):IDot {
@@ -104,9 +95,7 @@ export default class Vertigo {
     }
   }
 
-  public drawImage(image:TVertigoImage) {
-    this.image = image;
-
+  public drawImage(image:TDotsImage) {
     image.forEach((dots:number[], i:number) => {
       dots.forEach((dotScale:number, j:number) => {
         const circle = this.dots[i];
@@ -125,7 +114,7 @@ export default class Vertigo {
   }
 
   public convertImage(imageURL, callback?:TConvertCallback) {
-    convertImageToDots(imageURL, this.options, (convertedImage:TVertigoImage) => {
+    convertImageToDots(imageURL, this.options, (convertedImage:TDotsImage) => {
       this.drawImage(convertedImage);
       this.imageURL = imageURL;
 
@@ -143,7 +132,7 @@ export default class Vertigo {
     });
   }
 
-  public setOptions(options:IOptionsPartial, callback?:TConvertCallback) {
+  public setOptions(options:IDotsOptionsPartial, callback?:TConvertCallback) {
     this.options = {
       ...this.options,
       ...options,

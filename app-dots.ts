@@ -1,7 +1,6 @@
 import Vertigo from './src/vertigo';
 // import generateRandomImage from './src/generate-random-image';
-import convertImageToDots from './src/convert-image-to-dots';
-import { defaultOptions } from './src/constants';
+import { dotsDefaultOptions, IDotsOptionsPartial } from './src/constants';
 
 
 const svgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-svg');
@@ -10,7 +9,7 @@ const vertigoFileInput:HTMLInputElement = document.querySelector('.FileInput');
 
 const downloadButton:HTMLAnchorElement = document.querySelector('.Button--download');
 
-const options = {};
+const options:IDotsOptionsPartial = {};
 
 // Inlines SVG data to download link
 function setDownloadData() {
@@ -19,7 +18,7 @@ function setDownloadData() {
 
 // Loop through input to create initial options
 // add event listener to update options on input change
-Object.keys(defaultOptions).forEach(key => {
+Object.keys(dotsDefaultOptions).forEach(key => {
   const input:HTMLInputElement = document.querySelector(`.OptionsInput--${ key }`);
 
   // Sets inital options

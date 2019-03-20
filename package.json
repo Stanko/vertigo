@@ -6,13 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
+    "spiral": "parcel spiral.html",
     "build": "rm -rf docs && parcel build index.html --out-dir ./docs --public-url /vertigo"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "ie 10",
+    "ie 11"
+  ],
   "devDependencies": {
+    "node-sass": "^4.11.0",
     "parcel-bundler": "^1.12.0",
     "typescript": "^3.3.3333"
   }

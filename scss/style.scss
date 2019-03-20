@@ -120,6 +120,11 @@ button:focus {
 
 .SvgWrapper-svg {
   padding: 20px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .SvgWrapper-inner {
@@ -132,6 +137,9 @@ button:focus {
 }
 
 .SvgWrapper svg {
+  display: block;
+  height: 100%;
+  width: 100%;
 }
 
 .TestImage {

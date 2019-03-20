@@ -55,7 +55,7 @@ function getRectBrightness(ctx, x, y, rectWidth, minimumDotRadius, maximumDotRad
 //   convertedImage[i][j] = 4;
 // }
 
-export default function convertImage(
+export default function convertImageToDots(
   imageSrc:string,
   userOptions:IOptionsPartial,
   callback:(convertedImage:number[][]) => void

@@ -3,7 +3,12 @@ import {
   IOptions,
   IOptionsPartial,
   defaultOptions,
+  TVertigoImage,
 } from './constants';
+
+import convertImageToDots from './convert-image-to-dots';
+import { parseConfigFileTextToJson } from 'typescript';
+
 
 // TODO
 //
@@ -17,10 +22,13 @@ interface IDot {
   scale: number;
 };
 
+type TConvertCallback = (convertedImage:TVertigoImage) => void;
+
 export default class Vertigo {
   private options:IOptions;
   private dots:IDot[][];
   private radiusGrowStep:number;
+  private imageURL:string;
 
   public svg:SVGElement;
 
@@ -44,8 +52,6 @@ export default class Vertigo {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('class', className);
     svg.setAttribute('viewBox', `${ svgSize / -2 } ${ svgSize / -2 } ${ svgSize } ${ svgSize }`);
-    // svg.style.width = svgSize.toString();
-    // svg.style.height = svgSize.toString();
 
     return svg;
   }
@@ -98,8 +104,10 @@ export default class Vertigo {
     }
   }
 
-  public drawImage(image:any[]) { // TODO types
-    image.forEach((dots:any[], i:number) => { // TODO types
+  public drawImage(image:TVertigoImage) {
+    this.image = image;
+
+    image.forEach((dots:number[], i:number) => {
       dots.forEach((dotScale:number, j:number) => {
         const circle = this.dots[i];
 
@@ -116,17 +124,28 @@ export default class Vertigo {
     });
   }
 
+  public convertImage(imageURL, callback?:TConvertCallback) {
+    convertImageToDots(imageURL, this.options, (convertedImage:TVertigoImage) => {
+      this.drawImage(convertedImage);
+      this.imageURL = imageURL;
+
+      if (callback) {
+        callback(convertedImage);
+      }
+    });
+  }
+
   private removeDots() {
     this.dots.forEach(circle => {
       circle.forEach(dot => {
-        dot.element.remove();
+        dot.element.parentNode.removeChild(dot.element);
       });
     });
   }
 
-  public setOptions(options:IOptionsPartial) {
+  public setOptions(options:IOptionsPartial, callback?:TConvertCallback) {
     this.options = {
-      ...defaultOptions,
+      ...this.options,
       ...options,
     };
 
@@ -140,5 +159,9 @@ export default class Vertigo {
 
     this.removeDots();
     this.generateDots();
+
+    if (this.imageURL) {
+      this.convertImage(this.imageURL, callback);
+    }
   }
 }

@@ -1,6 +1,6 @@
 import Vertigo from './src/vertigo';
 // import generateRandomImage from './src/generate-random-image';
-import convertImage from './src/convert-image';
+import convertImageToDots from './src/convert-image-to-dots';
 import { defaultOptions } from './src/constants';
 
 
@@ -11,106 +11,62 @@ const vertigoFileInput:HTMLInputElement = document.querySelector('.FileInput');
 const downloadButton:HTMLAnchorElement = document.querySelector('.Button--download');
 
 const options = {};
-const optionInputs = [];
 
-let lastImageDrawn = null;
-
-function setOptions() {
-  optionInputs.forEach(optionInput => {
-    options[optionInput.key] = parseInt(optionInput.input.value, 10);
-  });
-
-  return options;
+// Inlines SVG data to download link
+function setDownloadData() {
+  downloadButton.href = `data:application/octet-stream;base64,${ btoa(svgWrapperInner.innerHTML) }`;
 }
 
+// Loop through input to create initial options
+// add event listener to update options on input change
 Object.keys(defaultOptions).forEach(key => {
-  const input:HTMLElement = document.querySelector(`.OptionsInput--${ key }`);
+  const input:HTMLInputElement = document.querySelector(`.OptionsInput--${ key }`);
 
-  input.addEventListener('change', (e:Event) => {
-    setOptions();
-    vertigo.setOptions(options);
+  // Sets inital options
+  options[key] = parseInt(input.value, 10);
 
+  input.addEventListener('change', (e) => {
+    // Update global options object
+    options[key] = parseInt(e.target.value, 10);
+
+    // Update value in UI
     e.target.nextElementSibling.innerHTML = e.target.value;
 
-    if (lastImageDrawn) {
-      convertImage(lastImageDrawn, options, convertedImage => {
-        vertigo.drawImage(convertedImage);
-        downloadButton.href = `data:application/octet-stream;base64,${ btoa(svgWrapperInner.innerHTML) }`;
-      });
-    }
-  });
-
-  optionInputs.push({
-    key,
-    input,
+    // Redraw vertigo with new options
+    vertigo.setOptions(options, setDownloadData);
   });
 });
 
-// Set initial options
-setOptions();
 
-document.querySelectorAll('.TestImageButton').forEach(button => {
+const testImagesElements:NodeListOf<HTMLImageElement> = document.querySelectorAll('.TestImageButton');
+
+// Connect buttons to draw test images
+// IE can't forEach through NodeList
+// so we need to call Array.prototype.slice
+Array.prototype.slice.call(testImagesElements).forEach(button => {
   button.addEventListener('click', e => {
     const image = document.querySelector(e.target.getAttribute('data-image'));
-
     const imageURL = image.getAttribute('src');
 
-    convertImage(imageURL, options, convertedImage => {
-      vertigo.drawImage(convertedImage);
-      lastImageDrawn = imageURL;
-      downloadButton.href = `data:application/octet-stream;base64,${ btoa(svgWrapperInner.innerHTML) }`;
-    });
+    vertigo.convertImage(imageURL, setDownloadData);
   });
 });
 
+// Create vertigo instance
 const vertigo = new Vertigo(options);
 
+// Show SVG
 svgWrapperInner.appendChild(vertigo.svg);
 
+// On file input change convert it
 vertigoFileInput.addEventListener('change', () => {
   const file:File = vertigoFileInput.files[0];
   const imageURL = URL.createObjectURL(file);
 
-  convertImage(imageURL, options, convertedImage => {
-    vertigo.drawImage(convertedImage);
-    lastImageDrawn = imageURL;
-    downloadButton.href = `data:application/octet-stream;base64,${ btoa(svgWrapperInner.innerHTML) }`;
-  });
+  vertigo.convertImage(imageURL, setDownloadData);
 });
 
+// On load draw hello image :)
 const imageURL = helloImage.getAttribute('src');
 
-convertImage(imageURL, options, convertedImage => {
-  vertigo.drawImage(convertedImage);
-  lastImageDrawn = imageURL;
-  downloadButton.href = `data:application/octet-stream;base64,${ btoa(svgWrapperInner.innerHTML) }`;
-});
-
-// setInterval(() => {
-//   vertigo.drawImage(generateRandomImage(resolution));
-// }, 1000);
-
-// vertigo.drawImage(helloImage);
-
-// setTimeout(() => {
-//   vertigo.drawImage(circleImage);
-// }, 3000);
-
-
-// noUiSlider.create(document.querySelector('.slider'), {
-//   start: [25],
-//   range: {
-//     'min': [5],
-//     'max': [50],
-//   },
-//   step: 1,
-//   tooltips: true,
-//   format: {
-//     to: function (value) {
-//       return parseInt(value);
-//     },
-//     from: function (value) {
-//       return value;
-//     },
-//   }
-// });
+vertigo.convertImage(imageURL, setDownloadData);

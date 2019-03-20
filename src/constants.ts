@@ -25,3 +25,5 @@ export const defaultOptions:IOptions = {
   // Distance between dots
   distanceBetweenDots: 2,
 };
+
+export type TVertigoImage = number[][];

@@ -1,6 +1,13 @@
 // -- Global
 
+export const DEBUG = false;
+
 export const MAXIMUM_BRIGHTNESS = 255;
+
+export interface IDot {
+  x: number;
+  y: number;
+}
 
 // -- Dots
 
@@ -37,12 +44,28 @@ export type TDotsImage = number[][];
 // -- Spiral
 
 export interface ISpiralOptions {
+  minimumLineWidth: number;
+  maximumLineWidth: number;
+  distanceBetweenLines: number;
+  startingRadius: number;
 };
 
 export interface ISpiralOptionsPartial {
+  minimumLineWidth?: number;
+  maximumLineWidth?: number;
+  distanceBetweenLines?: number;
+  startingRadius?: number;
 };
 
 export const spiralDefaultOptions:ISpiralOptions = {
+  // Minimum line width
+  minimumLineWidth: 1,
+  // Maximum line width
+  maximumLineWidth: 5,
+  // Distance between lines
+  distanceBetweenLines: 1,
+  // Starting radius
+  startingRadius: 4,
 };
 
 

@@ -1,5 +1,14 @@
-import { ISpiralOptions, ISpiralOptionsPartial, spiralDefaultOptions, TSpiralImage } from "./constants";
-import { createSvg, toFixed } from './helpers';
+import {
+  IDot,
+  ISpiralOptions,
+  ISpiralOptionsPartial,
+  spiralDefaultOptions,
+  TSpiralImage,
+} from "./constants";
+import {
+  createSvg,
+  toFixed,
+} from './helpers';
 
 import convertImageToSpiral from './convert-image-to-spiral'
 
@@ -9,6 +18,7 @@ type TSpiralConvertCallback = (convertedImage: TSpiralImage) => void;
 let prevAngle = null;
 let reverse = false;
 
+const SVG_SIZE = 500;
 
 export default class VertigoSpiral {
   private options: ISpiralOptions;
@@ -23,7 +33,7 @@ export default class VertigoSpiral {
       ...options,
     };
 
-    this.svg = createSvg(500, false, 'Spiral');
+    this.svg = createSvg(SVG_SIZE, false, 'Spiral');
 
     this.svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     this.svgPath.setAttribute('class', 'Spiral-path');
@@ -33,7 +43,6 @@ export default class VertigoSpiral {
 
   public convertImage(imageURL, callback?: TSpiralConvertCallback) {
     convertImageToSpiral(imageURL, this.options, (convertedImage: TSpiralImage) => {
-      console.log(convertedImage);
       this.drawImage(convertedImage);
       this.imageURL = imageURL;
 
@@ -43,46 +52,69 @@ export default class VertigoSpiral {
     });
   }
 
-  private static getOuterDots(prevDot, dot, nextDot) {
-    let a1 = VertigoSpiral.getAngleThreeDots(prevDot, dot, nextDot);
+  // Takes three dots and returns two dots,
+  // a vector which direction is half angle between these three dots
+  // and velocity is equal to a spiral line's width at that dot
+  /*
+                          • outerDots[0]
+                         /
+                        /
+    previousDot •------• dot
+                      / \
+                     /   • nextDot
+       outerDots[1] •
+  */
+  private static getOuterDots(previousDot, dot, nextDot) {
+    // Angle between (previosDot, dot) vector and x axis
+    /*
+    previousDot •------• dot
+               angle1 / \
+                     /   • nextDot
+    */
+    let angle1 = VertigoSpiral.getAngleBetweenThreeDots(previousDot, dot, nextDot) / 2;
 
-    a1 = a1 / 2;
-
-    const a2 = VertigoSpiral.getAngleThreeDots(prevDot, dot, {
-      x: dot.x + 100,
+    // Angle between (previosDot, dot) vector and x axis
+    /*
+                 dot •--------• (dot.x + 100, dot.y)
+                    / angle2
+                   /
+      previousDot •
+    */
+    const angle2 = VertigoSpiral.getAngleBetweenThreeDots(previousDot, dot, {
+      x: dot.x + 100, // Moving dot on x axis
       y: dot.y,
     });
 
-    let angle = parseFloat((a2 - a1).toFixed(2));
+    // Angle between the x axis and the half angle vector
+    const angle = toFixed(angle2 - angle1, 2);
 
-    const radius = dot.width / 2;
+    const halfWidth = dot.width / 2;
 
-    const p1 = {
-      x: toFixed(dot.x + radius * Math.cos(angle), 2),
-      y: toFixed(dot.y - radius * Math.sin(angle), 2),
+    const point1 = {
+      x: toFixed(dot.x + halfWidth * Math.cos(angle), 2),
+      y: toFixed(dot.y - halfWidth * Math.sin(angle), 2),
     };
 
-    const p2 = {
-      x: toFixed(dot.x + radius * Math.cos(angle + Math.PI), 2),
-      y: toFixed(dot.y - radius * Math.sin(angle + Math.PI), 2),
+    const point2 = {
+      x: toFixed(dot.x + halfWidth * Math.cos(angle + Math.PI), 2),
+      y: toFixed(dot.y - halfWidth * Math.sin(angle + Math.PI), 2),
     };
 
     const outerDots = [
-      p1,
-      p2,
+      point1,
+      point2,
     ];
-
 
     if (prevAngle === null) {
       prevAngle = angle;
     }
     if (angle > Math.PI && prevAngle < Math.PI) {
-      // console.log('switch');
       reverse = !reverse;
     }
 
     prevAngle = angle;
 
+    // When angle is PI or 2*PI dots get inverted
     if (reverse) {
       return outerDots.reverse();
     }
@@ -97,69 +129,61 @@ export default class VertigoSpiral {
     };
   }
 
-  private static getAngleThreeDots(a, b, c) {
+  private static getAngleBetweenThreeDots(a, b, c) {
     const vectorBA = VertigoSpiral.getVector(b, a);
     const vectorBC = VertigoSpiral.getVector(b, c);
 
     const angle = Math.atan2(vectorBC.y, vectorBC.x) - Math.atan2(vectorBA.y, vectorBA.x);
 
-    // if (angle < 0) {
-    //   return Math.PI * 2 + angle;
-    // }
-
     return angle;
   }
 
-  private static drawBezier(start, end, c1, c2, d) {
-    // ctx.lineWidth = 2;
-    // ctx.strokeStyle = '#BEC3C7';
-    // ctx.beginPath();
+  private static getBezier(end, c1, c2) {
+    return ` C ${ c1.x } ${ c1.y }, ${ c2.x } ${ c2.y }, ${ end.x } ${ end.y }`;
+
+    // Code for drawing a bezier on canvas
+    // leaving it here if I ever need it again
+    // It needs a start point, which is the end point of the previous segment
+    // and in SVG case is automatically reused)
     // ctx.moveTo(start.x, start.y);
     // ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, end.x, end.y);
-    // ctx.stroke();
-
-    d.push(` C ${ c1.x } ${ c1.y }, ${ c2.x } ${ c2.y }, ${ end.x } ${ end.y }`);
   }
 
-  private drawImage(image) {
-    console.log(image);
-    const od = [];
+  public drawImage(image) {
+    // Setting starting dot, based on "startingRadius"
+    // Spiral always starts from PI angle, that's why it's moved to the "right"
+    // (in other words, adding "r" to the "x" axis coordinate)
+    // while keeping y coordinate centered
+    const startingDot = `M ${ SVG_SIZE / 2 + this.options.startingRadius } ${ SVG_SIZE / 2 }`;
+    const pathOuter = [startingDot];
+    const pathInner = [startingDot];
 
-    const d1 = ['M 250 250']; // TODO handle start of the line
-    const d2 = ['M 250 250']; // TODO handle start of the line
+    const outerDots:IDot[][] = [];
 
+    // We need three dots to draw a bezier,
+    // that's why loop starts from 1 and ends on length - 1
     for (let i = 1; i < image.length - 1; i++) {
-      const preDot = image[i - 1];
-      const dot = image[i];
-      const postDot = image[i + 1];
+      const previousDot = image[i - 1];
+      const currentDot = image[i];
+      const nextDot = image[i + 1];
 
-      const outerDots = VertigoSpiral.getOuterDots(preDot, dot, postDot);
+      const od = VertigoSpiral.getOuterDots(previousDot, currentDot, nextDot);
 
-      const v = VertigoSpiral.getVector(dot, postDot);
-      const vector = {
-        x: toFixed(v.x / 2, 2),
-        y: toFixed(v.y / 2, 2),
+      const vector = VertigoSpiral.getVector(currentDot, nextDot);
+
+      const halfVector = {
+        x: toFixed(vector.x / 2, 2),
+        y: toFixed(vector.y / 2, 2),
       };
 
-      const a = [
-        ...outerDots,
-        vector,
-      ];
-
-      od.push(a);
-
-      // if (i === 1) {
-      //   drawStraightLine(preDot, dot);
-      // }
-      //
-      // drawStraightLine(dot, postDot);
+      outerDots.push([
+        ...od,
+        halfVector,
+      ]);
     }
 
-    od.forEach((outerDot, index) => {
-      const next = od[index + 1];
-
-      // drawDot(outerDot[0], red, 1);
-      // drawDot(outerDot[1], blue, 1);
+    outerDots.forEach((outerDot, index) => {
+      const next = outerDots[index + 1];
 
       if (next) {
         const c11 = {
@@ -171,13 +195,11 @@ export default class VertigoSpiral {
           y: next[0].y + outerDot[2].y,
         };
 
-        VertigoSpiral.drawBezier(
-          outerDot[0],
+        pathOuter.push(VertigoSpiral.getBezier(
           next[0],
           c11,
           c12,
-          d1
-        );
+        ));
 
         const c21 = {
           x: outerDot[1].x - outerDot[2].x,
@@ -188,28 +210,26 @@ export default class VertigoSpiral {
           y: next[1].y + outerDot[2].y,
         };
 
-        VertigoSpiral.drawBezier(
-
-          next[1],
+        pathInner.push(VertigoSpiral.getBezier(
           outerDot[1],
           c22,
           c21,
-
-          d2
-        );
-
-        // drawDot(outerDot[0], green, 1);
-        // drawDot(c12, green, 2);
-
-        // drawStraightLine(outerDot[0], next[0]);
-        // drawStraightLine(outerDot[1], next[1]);
+        ));
       }
     });
 
-    console.log(d1, d2);
 
-    this.svgPath.setAttribute('d', d1.join('') + d2.reverse().join('') + ' Z');
+    this.svgPath.setAttribute('d', pathOuter.join('') + pathInner.reverse().join('') + ' Z');
   }
 
+  public setOptions(newOptions:ISpiralOptionsPartial, callback?:TSpiralConvertCallback) {
+    this.options = {
+      ...this.options,
+      ...newOptions,
+    };
 
+    if (this.imageURL) {
+      this.convertImage(this.imageURL, callback);
+    }
+  }
 }

@@ -42,7 +42,7 @@ export default class Vertigo {
     const size = this.options.resolution * 2 * this.radiusGrowStep;
     const svgSize = size + this.options.maximumDotRadius * 2;
 
-    this.svg = createSvg(svgSize);
+    this.svg = createSvg(svgSize, true, 'Vertigo');
 
     this.generateDots();
   }
@@ -132,10 +132,10 @@ export default class Vertigo {
     });
   }
 
-  public setOptions(options:IDotsOptionsPartial, callback?:TConvertCallback) {
+  public setOptions(newOptions:IDotsOptionsPartial, callback?:TConvertCallback) {
     this.options = {
       ...this.options,
-      ...options,
+      ...newOptions,
     };
 
     this.radiusGrowStep = this.options.maximumDotRadius * 2 + this.options.distanceBetweenDots;

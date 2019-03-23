@@ -1,17 +1,19 @@
-import { toFixed, getRectBrightness } from './helpers';
 import {
+  drawImageOnCanvas,
+  getRectBrightness,
+  mapRange,
+  toFixed,
+} from './helpers';
+import {
+  DEBUG,
   DOT_INCREMENT_STEP,
+  dotsDefaultOptions,
   IDotsOptions,
   IDotsOptionsPartial,
-  dotsDefaultOptions,
   MAXIMUM_BRIGHTNESS,
   TDotsImage,
 } from './constants';
 
-function mapRange(value:number, inputRange:number, outputMin:number, outputMax:number) {
-  const outputRange = outputMax - outputMin;
-  return value / inputRange * outputRange + outputMin;
-}
 
 function getDotSizeFromRect(brightness, minimumDotRadius, maximumDotRadius) {
   const circleSize = mapRange(brightness, MAXIMUM_BRIGHTNESS, minimumDotRadius, maximumDotRadius);
@@ -19,12 +21,12 @@ function getDotSizeFromRect(brightness, minimumDotRadius, maximumDotRadius) {
   return toFixed(circleSize, 2);
 }
 
-function getRectCornerFromCenter(r, angle, rectWidth, size) {
+function getRectCornerFromCenter(r, angle, rectangleSize, size) {
   const rectCenterX = r * Math.cos(angle);
   const rectCenterY = r * Math.sin(angle);
 
-  const x = rectCenterX - (rectWidth / 2) + (size / 2);
-  const y = rectCenterY - (rectWidth / 2) + (size / 2);
+  const x = rectCenterX - (rectangleSize / 2) + (size / 2);
+  const y = rectCenterY - (rectangleSize / 2) + (size / 2);
 
   return {
     x,
@@ -47,49 +49,32 @@ export default function convertImageToDots(
   callback:(convertedImage:TDotsImage) => void
 ) {
   const size = 500;
-  const canvas:HTMLCanvasElement = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-
-  const ctx:CanvasRenderingContext2D = canvas.getContext('2d');
-
-  const image = new Image();
 
   const options:IDotsOptions = {
     ...dotsDefaultOptions,
     ...customOptions,
   };
 
-  image.addEventListener('load', () => {
-    // Get the largest square from the image
-    let yOffset = 0;
-    let xOffset = 0;
-    let imageSize;
-
-    if (image.height > image.width) {
-      yOffset = (image.height - image.width) / 2;
-      imageSize = image.width;
-    } else {
-      xOffset = (image.width - image.height) / 2;
-      imageSize = image.height;
-    }
-
-    ctx.drawImage(image, xOffset, yOffset, imageSize, imageSize, 0, 0, size, size);
+  drawImageOnCanvas(imageSrc, size, (canvas) => {
+    const ctx:CanvasRenderingContext2D = canvas.getContext('2d');
 
     const convertedImage:TDotsImage = [[]];
-    const rectWidth = size / 2 / (options.resolution + 0.5);
+    const rectangleSize = size / 2 / (options.resolution + 0.5);
 
-    // const helperRectangles = [];
+    const helperRectangles = [];
 
-    const { x, y } = getRectCornerFromCenter(0, 0, rectWidth, size);
-    const brightness = getRectBrightness(ctx, x, y, rectWidth);
+    // Center dot
+    const { x, y } = getRectCornerFromCenter(0, 0, rectangleSize, size);
+    const brightness = getRectBrightness(ctx, x, y, rectangleSize);
 
     convertedImage[0][0] = getDotSizeFromRect(brightness, options.minimumDotRadius, options.maximumDotRadius);
 
-    // helperRectangles.push({ x, y })
+    if (DEBUG) {
+      helperRectangles.push({ x, y })
+    }
 
     for (let i = 1; i <= options.resolution; i++) {
-      const r = i * rectWidth;
+      const r = i * rectangleSize;
 
       const dotCount = i * DOT_INCREMENT_STEP;
       const dotAngleStep = 360 / dotCount;
@@ -99,25 +84,28 @@ export default function convertImageToDots(
       for (let j = 0; j < dotCount; j++) {
         const angle = Math.PI * (dotAngleStep * j) / 180;
 
-        const { x, y } = getRectCornerFromCenter(r, angle, rectWidth, size);
+        const { x, y } = getRectCornerFromCenter(r, angle, rectangleSize, size);
 
-        const brightness = getRectBrightness(ctx, x, y, rectWidth);
+        const brightness = getRectBrightness(ctx, x, y, rectangleSize);
 
         convertedImage[i][j] = getDotSizeFromRect(brightness, options.minimumDotRadius, options.maximumDotRadius);
 
-        // helperRectangles.push({ x, y });
+        if (DEBUG) {
+          helperRectangles.push({ x, y });
+        }
       }
     }
 
     callback(convertedImage);
 
-    // document.querySelector('body').appendChild(canvas);
-    // ctx.strokeStyle = 'orange';
+    if (DEBUG) {
+      ctx.strokeStyle = 'orange';
 
-    // helperRectangles.forEach(rect => {
-    //   ctx.strokeRect(rect.x, rect.y, rectWidth, rectWidth);
-    // });
+      helperRectangles.forEach(rect => {
+        ctx.strokeRect(rect.x, rect.y, rectangleSize, rectangleSize);
+      });
+
+      document.querySelector('body').appendChild(canvas);
+    }
   });
-
-  image.src = imageSrc;
 }

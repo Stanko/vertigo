@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel index.html",
-    "spiral": "parcel spiral.html",
-    "build": "rm -rf docs && parcel build index.html --out-dir ./docs --public-url /vertigo"
+    "start": "parcel index.html spiral.html",
+    "build": "rm -rf docs && parcel build index.html spiral.html --out-dir ./docs --public-url /vertigo"
   },
   "keywords": [],
   "author": "",

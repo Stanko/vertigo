@@ -17,6 +17,16 @@ h1 {
   color: #2980B9;
 }
 
+h2 {
+  padding-top: 20px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+h2#dots {
+  margin-top: 50px;
+}
+
 p {
   margin-bottom: 10px;
 }
@@ -40,6 +50,8 @@ circle {
 
 path {
   fill: #f4f7fa;
+  // stroke-width: 1px;
+  // stroke: #f4f7fa;
 }
 
 label {
@@ -92,8 +104,8 @@ button:focus {
 
 .FileInput {
   position: absolute;
-  top: -10000px;
-  left: -10000px;
+  top: 0;
+  left: 0;
   width: 0;
   height: 0;
   opacity: 0;
@@ -186,6 +198,7 @@ button:focus {
   margin: 0 auto;
   max-width: 500px;
   text-align: center;
+  position: relative;
 }
 
 @media (min-width: 850px) {

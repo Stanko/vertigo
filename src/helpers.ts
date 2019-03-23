@@ -22,7 +22,7 @@ export function getRectBrightness(ctx:CanvasRenderingContext2D, x:number, y:numb
   return brightness / (imageData.data.length / COLORS_COUNT);
 }
 
-export function createSvg(svgSize:number, moveToCenter:boolean = true, className:string = 'Dots'):SVGElement {
+export function createSvg(svgSize:number, moveToCenter:boolean, className:string):SVGElement {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   const min = moveToCenter ? svgSize / -2 : 0;
 
@@ -30,4 +30,45 @@ export function createSvg(svgSize:number, moveToCenter:boolean = true, className
   svg.setAttribute('viewBox', `${ min } ${ min } ${ svgSize } ${ svgSize }`);
 
   return svg;
+}
+
+
+export function mapRange(value:number, inputRange:number, outputMin:number, outputMax:number) {
+  const outputRange = outputMax - outputMin;
+  return value / inputRange * outputRange + outputMin;
+}
+
+export function drawImageOnCanvas(
+  imageSrc:string,
+  size: 500,
+  callback:(canvas:HTMLCanvasElement) => void,
+) {
+  const canvas:HTMLCanvasElement = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+
+  const ctx:CanvasRenderingContext2D = canvas.getContext('2d');
+
+  const image = new Image();
+  image.addEventListener('load', () => {
+    // Get the largest square from the image
+    let yOffset = 0;
+    let xOffset = 0;
+    let imageSize;
+
+    if (image.height > image.width) {
+      yOffset = (image.height - image.width) / 2;
+      imageSize = image.width;
+    } else {
+      xOffset = (image.width - image.height) / 2;
+      imageSize = image.height;
+    }
+
+    ctx.drawImage(image, xOffset, yOffset, imageSize, imageSize, 0, 0, size, size);
+
+    callback(canvas);
+  });
+
+  // Load image
+  image.src = imageSrc;
 }

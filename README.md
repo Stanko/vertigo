@@ -1,9 +1,8 @@
 # Vertigo
 
-Converts any raster image to a SVG,
-and renders it as a grayscale image on
-a circular dot grid.
+Converts any raster image to a SVG, using two different "shaders".
 
 [Play with the demo](https://stanko.github.io/vertigo/)
 
-[![Vertigo demo](vertigo.png)](https://stanko.github.io/vertigo/)
+| [![Vertigo demo](vertigo.png)](https://stanko.github.io/vertigo/) | [![Vertigo demo](spiral.png)](https://stanko.github.io/vertigo/#spiral) |
+|---|---|

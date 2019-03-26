@@ -15,7 +15,7 @@ export function createOption({
   labelName.appendChild(spanRange);
 
   const spanValue = document.createElement('span');
-  spanValue.innerHTML = value;
+  spanValue.innerHTML = ` ${ value }`;
 
   const input = document.createElement('input');
   input.setAttribute('type', 'range');
@@ -26,7 +26,7 @@ export function createOption({
   input.setAttribute('class', `OptionsInput OptionsInput--${ name }`);
   input.addEventListener('change', e => {
     callback(name, e.target.value);
-    spanValue.innerHTML = e.target.value;
+    spanValue.innerHTML = ` ${ e.target.value }`;
   });
 
   const divOption = document.createElement('div');

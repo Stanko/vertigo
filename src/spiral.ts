@@ -11,6 +11,7 @@ import {
 } from './helpers';
 
 import convertImageToSpiral from './convert-image-to-spiral'
+import smoothLine from "./smooth-line";
 
 type TSpiralConvertCallback = (convertedImage: TSpiralImage) => void;
 
@@ -138,27 +139,13 @@ export default class VertigoSpiral {
     return angle;
   }
 
-  private static getBezier(end, c1, c2) {
-    return ` C ${ c1.x } ${ c1.y }, ${ c2.x } ${ c2.y }, ${ end.x } ${ end.y }`;
-
-    // Code for drawing a bezier on canvas
-    // leaving it here if I ever need it again
-    // It needs a start point, which is the end point of the previous segment
-    // and in SVG case is automatically reused)
-    // ctx.moveTo(start.x, start.y);
-    // ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, end.x, end.y);
-  }
-
   public drawImage(image) {
     // Setting starting dot, based on "startingRadius"
     // Spiral always starts from PI angle, that's why it's moved to the "right"
     // (in other words, adding "r" to the "x" axis coordinate)
     // while keeping y coordinate centered
-    const startingDot = `M ${ SVG_SIZE / 2 + this.options.startingRadius } ${ SVG_SIZE / 2 }`;
-    const pathOuter = [startingDot];
-    const pathInner = [startingDot];
-
-    const outerDots:IDot[][] = [];
+    const pathOuter = [];
+    const pathInner = [];
 
     // We need three dots to draw a bezier,
     // that's why loop starts from 1 and ends on length - 1
@@ -169,57 +156,16 @@ export default class VertigoSpiral {
 
       const od = VertigoSpiral.getOuterDots(previousDot, currentDot, nextDot);
 
-      const vector = VertigoSpiral.getVector(currentDot, nextDot);
-
-      const halfVector = {
-        x: toFixed(vector.x / 2, 2),
-        y: toFixed(vector.y / 2, 2),
-      };
-
-      outerDots.push([
-        ...od,
-        halfVector,
-      ]);
+      pathOuter.push(od[0]);
+      pathInner.push(od[1]);
     }
 
-    outerDots.forEach((outerDot, index) => {
-      const next = outerDots[index + 1];
+    const pathPoints = [
+      ...pathOuter,
+      ...pathInner.reverse(),
+    ];
 
-      if (next) {
-        const c11 = {
-          x: outerDot[0].x - outerDot[2].x,
-          y: outerDot[0].y - outerDot[2].y,
-        };
-        const c12 = {
-          x: next[0].x + outerDot[2].x,
-          y: next[0].y + outerDot[2].y,
-        };
-
-        pathOuter.push(VertigoSpiral.getBezier(
-          next[0],
-          c11,
-          c12,
-        ));
-
-        const c21 = {
-          x: outerDot[1].x - outerDot[2].x,
-          y: outerDot[1].y - outerDot[2].y,
-        };
-        const c22 = {
-          x: next[1].x + outerDot[2].x,
-          y: next[1].y + outerDot[2].y,
-        };
-
-        pathInner.push(VertigoSpiral.getBezier(
-          outerDot[1],
-          c22,
-          c21,
-        ));
-      }
-    });
-
-
-    this.svgPath.setAttribute('d', pathOuter.join('') + pathInner.reverse().join('') + ' Z');
+    this.svgPath.setAttribute('d', smoothLine(pathPoints));
   }
 
   public setOptions(newOptions:ISpiralOptionsPartial, callback?:TSpiralConvertCallback) {

@@ -153,4 +153,8 @@ export default class Vertigo {
       this.convertImage(this.imageURL, callback);
     }
   }
+
+  public getOptions() {
+    return { ...this.options }
+  }
 }

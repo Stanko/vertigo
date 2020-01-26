@@ -1,7 +1,7 @@
 import { toFixed } from './helpers';
 
 function getRandomScale() {
-  const random:number = Math.random() * 4 + 1;
+  const random:number = Math.random() * 3 + 1;
 
   return toFixed(random, 2);
 }

@@ -5,7 +5,7 @@ import {
   IDotsOptions,
 } from './constants';
 import { createOption } from './demo-helpers';
-
+import generateRandomImage from './generate-random-image';
 
 const helloImage:HTMLElement = document.querySelector('.TestImage--hello');
 
@@ -16,6 +16,8 @@ const dotsFileInput:HTMLInputElement = document.querySelector('.FileInput--dots'
 const dotsOptionsDiv:HTMLElement = document.querySelector('.Options--dots');
 
 const dotsDownloadButton:HTMLAnchorElement = document.querySelector('.Button--dotsDownload');
+const dotsRandomButton:HTMLButtonElement = document.querySelector('.Button--dotsRandom');
+
 
 const dotsOptions:IDotsOptions = {
   minimumDotRadius: 1,
@@ -90,6 +92,11 @@ dotsFileInput.addEventListener('change', () => {
 
   vertigo.convertImage(imageURL, setDotsDownloadData);
 });
+
+// Draw random image
+dotsRandomButton.addEventListener('click', () => {
+  vertigo.drawImage(generateRandomImage(vertigo.getOptions().resolution));
+})
 
 // On load draw hello image :)
 vertigo.convertImage(helloImage.getAttribute('src'), setDotsDownloadData);

@@ -105,7 +105,8 @@ export default function convertImageToDots(
         ctx.strokeRect(rect.x, rect.y, rectangleSize, rectangleSize);
       });
 
-      document.querySelector('body').appendChild(canvas);
+      document.querySelector('.Debug--dots').innerHTML = '';
+      document.querySelector('.Debug--dots').appendChild(canvas);
     }
   });
 }

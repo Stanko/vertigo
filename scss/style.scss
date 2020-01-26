@@ -122,6 +122,14 @@ button:focus {
   text-align: center;
 }
 
+.Debug {
+  canvas {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
 .SvgWrapper {
   max-width: 500px;
   width: 100%;
@@ -183,13 +191,7 @@ button:focus {
 
 @media (min-width: 1200px) {
   .Content {
-    align-items: center;
-    justify-content: space-between;
-    display: flex;
-    padding: 20px;
-    margin: 0 auto;
     max-width: 1100px;
-    text-align: center;
   }
 }
 

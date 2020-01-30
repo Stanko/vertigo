@@ -3,12 +3,16 @@
   <link rel="stylesheet" type="text/css" href="./scss/style.scss">
 
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Vertigo</title>
   <meta property="og:title" content="Vertigo">
-  <meta property="og:description" content="Convert and render any image on a circular dot grid.">
-  <meta name="description" content="Convert and render any image on a circular dot grid.">
+  <meta property="og:site_name" content="Vertigo">
+  <meta property="og:description" content="Convert and render any image on a circular dot grid or as a spiral of a variable width.">
+  <meta name="description" content="Convert and render any image on a circular dot grid or as a spiral of a variable width.">
+  <meta property="og:image" content="./zappa.png">
+  <meta property="og:url" content="https://muffinman.io/vertigo/">
+  <meta name="twitter:title" content="Vertigo">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
 
   <!-- Icons -->
   <link rel="apple-touch-icon" sizes="180x180" href="https://stanko.github.io/public/favicon/apple-touch-icon.png?v=v3" />
@@ -28,7 +32,7 @@
         to a vector, using two different "shaders".
         Available shaders are
         <a class="Link" href="#dots">circular dot grid</a> and
-        <a class="Link" href="#spiral">spiral of a variable grid</a>.
+        <a class="Link" href="#spiral">spiral of a variable width</a>.
       <p>
 
       <p>
@@ -70,8 +74,8 @@
           <button class="TestImageButton" data-image=".TestImage--hk" type="button" data-type="dots">
             Hollow Knight
           </button>
-          <button class="TestImageButton" data-image=".TestImage--cool" type="button" data-type="dots">
-            Cool
+          <button class="TestImageButton" data-image=".TestImage--zappa" type="button" data-type="dots">
+            Zappa
           </button>
         </div>
         <div class="Options Options--dots">
@@ -123,10 +127,10 @@
           </button>
           <button
             class="TestImageButton"
-            data-image=".TestImage--cool"
+            data-image=".TestImage--zappa"
             type="button"
           >
-            Cool
+            Zappa
           </button>
         </div>
         <div class="Options Options--spiral"></div>
@@ -137,7 +141,7 @@
   </div>
   <img src="./test-images/hello.png" class="TestImage TestImage--hello" />
   <img src="./test-images/hk.jpg" class="TestImage TestImage--hk" />
-  <img src="./test-images/cool.png" class="TestImage TestImage--cool" />
+  <img src="./test-images/zappa.jpg" class="TestImage TestImage--zappa" />
 
   <script src="./src/demo.ts"></script>
 

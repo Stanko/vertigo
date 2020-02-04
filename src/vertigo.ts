@@ -96,6 +96,9 @@ export default class Vertigo {
   }
 
   public drawImage(image:TDotsImage) {
+    // Remove saved image file because we are drawing a custom image
+    this.imageURL = null;
+
     image.forEach((dots:number[], i:number) => {
       dots.forEach((dotScale:number, j:number) => {
         const circle = this.dots[i];

@@ -4,7 +4,7 @@ import {
   ISpiralOptions,
   IDotsOptions,
 } from './constants';
-import { createOption } from './demo-helpers';
+import { createOption, downloadSVG } from './demo-helpers';
 import generateRandomImage from './generate-random-image';
 
 const helloImage:HTMLElement = document.querySelector('.TestImage--hello');
@@ -18,7 +18,6 @@ const dotsOptionsDiv:HTMLElement = document.querySelector('.Options--dots');
 const dotsDownloadButton:HTMLAnchorElement = document.querySelector('.Button--dotsDownload');
 const dotsRandomButton:HTMLButtonElement = document.querySelector('.Button--dotsRandom');
 
-
 const dotsOptions:IDotsOptions = {
   minimumDotRadius: 1,
   maximumDotRadius: 5,
@@ -26,17 +25,12 @@ const dotsOptions:IDotsOptions = {
   resolution: 25,
 };
 
-// Inlines SVG data to download link
-function setDotsDownloadData() {
-  dotsDownloadButton.href = `data:application/octet-stream;base64,${ btoa(dotsSvgWrapperInner.innerHTML) }`;
-}
-
 function dotOptionsChangeHandler(name, value) {
   // Update global options object
   dotsOptions[name] = parseInt(value, 10);
 
   // Redraw vertigo with new options
-  vertigo.setOptions(dotsOptions, setDotsDownloadData);
+  vertigo.setOptions(dotsOptions);
 }
 
 const DOTS_OPTIONS_INPUTS = [
@@ -70,7 +64,7 @@ const DOTS_OPTIONS_INPUTS = [
     max: 20,
     min: 0,
     name: 'distanceBetweenDots',
-    value: 2,
+    value: 1,
   },
 ];
 
@@ -90,8 +84,11 @@ dotsFileInput.addEventListener('change', () => {
   const file:File = dotsFileInput.files[0];
   const imageURL = URL.createObjectURL(file);
 
-  vertigo.convertImage(imageURL, setDotsDownloadData);
+  vertigo.convertImage(imageURL);
 });
+
+// Download SVG
+dotsDownloadButton.addEventListener('click', () => downloadSVG(vertigo, 'vertigo'));
 
 // Draw random image
 dotsRandomButton.addEventListener('click', () => {
@@ -99,7 +96,7 @@ dotsRandomButton.addEventListener('click', () => {
 })
 
 // On load draw hello image :)
-vertigo.convertImage(helloImage.getAttribute('src'), setDotsDownloadData);
+vertigo.convertImage(helloImage.getAttribute('src'));
 
 // -------------- SPIRAL
 
@@ -115,17 +112,12 @@ const spiralOptions:ISpiralOptions = {
   startingRadius: 5,
 };
 
-// Inlines SVG data to download link
-function setSpiralDownloadData() {
-  spiralDownloadButton.href = `data:application/octet-stream;base64,${ btoa(spiralSvgWrapperInner.innerHTML) }`;
-}
-
 function spiralOptionsChangeHandler(name, value) {
   // Update global options object
   spiralOptions[name] = parseInt(value, 10);
 
   // Redraw vertigo with new options
-  spiral.setOptions(spiralOptions, setSpiralDownloadData);
+  spiral.setOptions(spiralOptions);
 }
 
 const SPIRAL_OPTIONS_INPUTS = [
@@ -179,10 +171,14 @@ spiralFileInput.addEventListener('change', () => {
   const file:File = spiralFileInput.files[0];
   const imageURL = URL.createObjectURL(file);
 
-  spiral.convertImage(imageURL, setSpiralDownloadData);
+  spiral.convertImage(imageURL);
 });
 
-spiral.convertImage(helloImage.getAttribute('src'), setSpiralDownloadData);
+// Download SVG
+spiralDownloadButton.addEventListener('click', () => downloadSVG(spiral, 'spiral'));
+
+// Convert hello image on load
+spiral.convertImage(helloImage.getAttribute('src'));
 
 
 // --------- TEST IMAGES
@@ -199,9 +195,9 @@ Array.prototype.slice.call(testImagesElements).forEach(button => {
     const type = e.target.getAttribute('data-type');
 
     if (type === 'dots') {
-      vertigo.convertImage(imageURL, setDotsDownloadData);
+      vertigo.convertImage(imageURL);
     } else {
-      spiral.convertImage(imageURL, setSpiralDownloadData);
+      spiral.convertImage(imageURL);
     }
   });
 });

@@ -26,6 +26,7 @@ export function createSvg(svgSize:number, moveToCenter:boolean, className:string
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   const min = moveToCenter ? svgSize / -2 : 0;
 
+  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   svg.setAttribute('class', className);
   svg.setAttribute('viewBox', `${ min } ${ min } ${ svgSize } ${ svgSize }`);
 

@@ -124,6 +124,8 @@ button:focus {
 
 .Debug {
   canvas {
+    width: 100%;
+    max-width: 800px;
     display: block;
     position: relative;
     margin: 0 auto;

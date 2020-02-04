@@ -178,4 +178,8 @@ export default class VertigoSpiral {
       this.convertImage(this.imageURL, callback);
     }
   }
+
+  public getOptions() {
+    return { ...this.options }
+  }
 }

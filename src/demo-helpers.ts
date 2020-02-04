@@ -1,3 +1,5 @@
+import { saveAs } from 'file-saver';
+
 export function createOption({
   callback,
   label,
@@ -35,4 +37,27 @@ export function createOption({
   divOption.appendChild(spanValue);
 
   return divOption;
+}
+
+const namingMap = {
+  distanceBetweenDots: 'dist',
+  distanceBetweenLines: 'dist',
+  startingRadius: 'start',
+};
+
+export function downloadSVG (instance, type) {
+  const options = instance.getOptions();
+
+  console.log(instance.imageURL)
+
+  let name = type;
+
+  Object.keys(options).forEach(key => {
+    const shortOptionName = namingMap[key] || key.substr(0, 3);
+    name += `_${ shortOptionName }-${ options[key] }`;
+  });
+
+  name += '.svg';
+
+  saveAs(`data:application/octet-stream;base64,${ btoa(instance.svg.outerHTML) }`, name);
 }

@@ -4,7 +4,7 @@ import {
   ISpiralOptions,
   IDotsOptions,
 } from './constants';
-import { createOption, downloadSVG } from './demo-helpers';
+import { createOption, createCheckboxOption, downloadSVG } from './demo-helpers';
 import generateRandomImage from './generate-random-image';
 
 const helloImage:HTMLElement = document.querySelector('.TestImage--hello');
@@ -23,11 +23,16 @@ const dotsOptions:IDotsOptions = {
   maximumDotRadius: 5,
   distanceBetweenDots: 1,
   resolution: 25,
+  invert: true,
 };
 
 function dotOptionsChangeHandler(name, value) {
   // Update global options object
   dotsOptions[name] = parseInt(value, 10);
+
+  if (name === 'invert') {
+    dotsOptions[name] = Boolean(value);
+  }
 
   // Redraw vertigo with new options
   vertigo.setOptions(dotsOptions);
@@ -68,9 +73,18 @@ const DOTS_OPTIONS_INPUTS = [
   },
 ];
 
+const DOTS_INVERT_INPUT = {
+  callback: dotOptionsChangeHandler,
+  label: 'Invert colors',
+  name: 'invert',
+  value: true,
+};
+
 DOTS_OPTIONS_INPUTS.forEach(inputData => {
   dotsOptionsDiv.appendChild(createOption(inputData));
 });
+
+dotsOptionsDiv.appendChild(createCheckboxOption(DOTS_INVERT_INPUT));
 
 
 // Create vertigo instance
@@ -110,11 +124,16 @@ const spiralOptions:ISpiralOptions = {
   maximumLineWidth: 5,
   distanceBetweenLines: 1,
   startingRadius: 5,
+  invert: true,
 };
 
 function spiralOptionsChangeHandler(name, value) {
   // Update global options object
   spiralOptions[name] = parseInt(value, 10);
+
+  if (name === 'invert') {
+    spiralOptions[name] = Boolean(value);
+  }
 
   // Redraw vertigo with new options
   spiral.setOptions(spiralOptions);
@@ -153,12 +172,21 @@ const SPIRAL_OPTIONS_INPUTS = [
     name: 'startingRadius',
     value: 5,
   },
-]
+];
+
+const SPIRAL_INVERT_INPUT = {
+  callback: spiralOptionsChangeHandler,
+  label: 'Invert colors',
+  name: 'invert',
+  value: true,
+};
+
 
 SPIRAL_OPTIONS_INPUTS.forEach(inputData => {
   spiralOptionsDiv.appendChild(createOption(inputData));
 });
 
+spiralOptionsDiv.appendChild(createCheckboxOption(SPIRAL_INVERT_INPUT));
 
 // Create spiral instance
 const spiral = new VertigoSpiral(spiralOptions);

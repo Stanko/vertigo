@@ -19,6 +19,7 @@ export interface IDotsOptions {
   minimumDotRadius: number;
   maximumDotRadius: number;
   distanceBetweenDots: number;
+  invert: boolean;
 };
 
 export interface IDotsOptionsPartial {
@@ -26,6 +27,7 @@ export interface IDotsOptionsPartial {
   minimumDotRadius?: number;
   maximumDotRadius?: number;
   distanceBetweenDots?: number;
+  invert?: boolean;
 };
 
 export const dotsDefaultOptions:IDotsOptions = {
@@ -37,6 +39,9 @@ export const dotsDefaultOptions:IDotsOptions = {
   maximumDotRadius: 5,
   // Distance between dots
   distanceBetweenDots: 2,
+  // By default, images are drawn as white on black
+  // disable this option to get black on white
+  invert: true,
 };
 
 export type TDotsImage = number[][];
@@ -48,6 +53,7 @@ export interface ISpiralOptions {
   maximumLineWidth: number;
   distanceBetweenLines: number;
   startingRadius: number;
+  invert: boolean;
 };
 
 export interface ISpiralOptionsPartial {
@@ -55,6 +61,7 @@ export interface ISpiralOptionsPartial {
   maximumLineWidth?: number;
   distanceBetweenLines?: number;
   startingRadius?: number;
+  invert?: boolean;
 };
 
 export const spiralDefaultOptions:ISpiralOptions = {
@@ -66,6 +73,9 @@ export const spiralDefaultOptions:ISpiralOptions = {
   distanceBetweenLines: 1,
   // Starting radius
   startingRadius: 4,
+  // By default, images are drawn as white on black
+  // disable this option to get black on white
+  invert: true,
 };
 
 

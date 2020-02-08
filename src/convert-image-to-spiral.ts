@@ -54,7 +54,12 @@ export default function convertImageToSpiral(
 
       helperRectangles.push({ x, y });
 
-      const brightness = getRectBrightness(ctx, x, y, rectangleSize);
+      let brightness = getRectBrightness(ctx, x, y, rectangleSize);
+
+      if (!options.invert) {
+        brightness = 255 - brightness;
+      }
+
       const width = mapRange(brightness, MAXIMUM_BRIGHTNESS, options.minimumLineWidth, options.maximumLineWidth);
 
       angleIncrementStep = 3 / r;

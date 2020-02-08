@@ -39,6 +39,32 @@ export function createOption({
   return divOption;
 }
 
+export function createCheckboxOption({
+  callback,
+  label,
+  name,
+  value,
+}) {
+  const labelName = document.createElement('label');
+  labelName.innerHTML = ` ${ label }`;
+
+  const input = document.createElement('input');
+  input.setAttribute('type', 'checkbox');
+  input.setAttribute('checked', value);
+  input.setAttribute('class', `OptionsInput OptionsInput--${ name }`);
+  input.addEventListener('change', e => {
+    callback(name, e.target.checked);
+  });
+
+  labelName.prepend(input);
+
+  const divOption = document.createElement('div');
+  divOption.appendChild(labelName);
+
+
+  return divOption;
+}
+
 const namingMap = {
   distanceBetweenDots: 'dist',
   distanceBetweenLines: 'dist',

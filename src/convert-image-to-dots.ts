@@ -65,7 +65,11 @@ export default function convertImageToDots(
 
     // Center dot
     const { x, y } = getRectCornerFromCenter(0, 0, rectangleSize, size);
-    const brightness = getRectBrightness(ctx, x, y, rectangleSize);
+    let brightness = getRectBrightness(ctx, x, y, rectangleSize);
+
+    if (!options.invert) {
+      brightness = 255 - brightness;
+    }
 
     convertedImage[0][0] = getDotSizeFromRect(brightness, options.minimumDotRadius, options.maximumDotRadius);
 
@@ -86,7 +90,11 @@ export default function convertImageToDots(
 
         const { x, y } = getRectCornerFromCenter(r, angle, rectangleSize, size);
 
-        const brightness = getRectBrightness(ctx, x, y, rectangleSize);
+        let brightness = getRectBrightness(ctx, x, y, rectangleSize);
+
+        if (!options.invert) {
+          brightness = 255 - brightness;
+        }
 
         convertedImage[i][j] = getDotSizeFromRect(brightness, options.minimumDotRadius, options.maximumDotRadius);
 

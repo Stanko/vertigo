@@ -16,9 +16,6 @@ import smoothLine from "./smooth-line";
 type TSpiralConvertCallback = (convertedImage: TSpiralImage) => void;
 
 
-let prevAngle = null;
-let reverse = false;
-
 const SVG_SIZE = 500;
 
 export default class VertigoSpiral {
@@ -74,15 +71,20 @@ export default class VertigoSpiral {
     */
     let angle1 = VertigoSpiral.getAngleBetweenThreeDots(previousDot, dot, nextDot) / 2;
 
+    let offset = 100;
+
+    if (angle1 > 0) {
+      offset = -100;
+    }
     // Angle between (previosDot, dot) vector and x axis
     /*
-                 dot •--------• (dot.x + 100, dot.y)
+                 dot •--------• (dot.x + offset, dot.y)
                     / angle2
                    /
       previousDot •
     */
     const angle2 = VertigoSpiral.getAngleBetweenThreeDots(previousDot, dot, {
-      x: dot.x + 100, // Moving dot on x axis
+      x: dot.x + offset, // Moving dot on x axis
       y: dot.y,
     });
 
@@ -105,20 +107,6 @@ export default class VertigoSpiral {
       point1,
       point2,
     ];
-
-    if (prevAngle === null) {
-      prevAngle = angle;
-    }
-    if (angle > Math.PI && prevAngle < Math.PI) {
-      reverse = !reverse;
-    }
-
-    prevAngle = angle;
-
-    // When angle is PI or 2*PI dots get inverted
-    if (reverse) {
-      return outerDots.reverse();
-    }
 
     return outerDots;
   }

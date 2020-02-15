@@ -11,9 +11,11 @@ const helloImage:HTMLElement = document.querySelector('.TestImage--hello');
 
 // ------- DOTS
 
-const dotsSvgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-svg--dots');
+const dotsSvgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-inner--dots');
+const dotsSvgWrapper:HTMLElement = document.querySelector('.SvgWrapper-svg--dots');
 const dotsFileInput:HTMLInputElement = document.querySelector('.FileInput--dots');
 const dotsOptionsDiv:HTMLElement = document.querySelector('.Options--dots');
+
 
 const dotsDownloadButton:HTMLAnchorElement = document.querySelector('.Button--dotsDownload');
 const dotsRandomButton:HTMLButtonElement = document.querySelector('.Button--dotsRandom');
@@ -32,6 +34,12 @@ function dotOptionsChangeHandler(name, value) {
 
   if (name === 'invert') {
     dotsOptions[name] = Boolean(value);
+
+    if (dotsOptions[name]) {
+      dotsSvgWrapperInner.classList.add('SvgWrapper-inner--invert');
+    } else {
+      dotsSvgWrapperInner.classList.remove('SvgWrapper-inner--invert');
+    }
   }
 
   // Redraw vertigo with new options
@@ -91,7 +99,7 @@ dotsOptionsDiv.appendChild(createCheckboxOption(DOTS_INVERT_INPUT));
 const vertigo = new Vertigo(dotsOptions);
 
 // Show SVG
-dotsSvgWrapperInner.appendChild(vertigo.svg);
+dotsSvgWrapper.appendChild(vertigo.svg);
 
 // On file input change convert it
 dotsFileInput.addEventListener('change', () => {
@@ -117,13 +125,14 @@ vertigo.convertImage(helloImage.getAttribute('src'));
 const spiralOptionsDiv:HTMLElement = document.querySelector('.Options--spiral');
 const spiralDownloadButton:HTMLAnchorElement = document.querySelector('.Button--spiralDownload');
 const spiralFileInput:HTMLInputElement = document.querySelector('.FileInput--spiral');
-const spiralSvgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-svg--spiral');
+const spiralSvgWrapper:HTMLElement = document.querySelector('.SvgWrapper-svg--spiral');
+const spiralSvgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-inner--spiral');
 
 const spiralOptions:ISpiralOptions = {
   minimumLineWidth: 1,
   maximumLineWidth: 5,
   distanceBetweenLines: 1,
-  startingRadius: 5,
+  startingRadius: 3,
   invert: true,
 };
 
@@ -133,6 +142,12 @@ function spiralOptionsChangeHandler(name, value) {
 
   if (name === 'invert') {
     spiralOptions[name] = Boolean(value);
+
+    if (spiralOptions[name]) {
+      spiralSvgWrapperInner.classList.add('SvgWrapper-inner--invert');
+    } else {
+      spiralSvgWrapperInner.classList.remove('SvgWrapper-inner--invert');
+    }
   }
 
   // Redraw vertigo with new options
@@ -170,7 +185,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     min: 3,
     max: 300,
     name: 'startingRadius',
-    value: 5,
+    value: 3,
   },
 ];
 
@@ -192,7 +207,7 @@ spiralOptionsDiv.appendChild(createCheckboxOption(SPIRAL_INVERT_INPUT));
 const spiral = new VertigoSpiral(spiralOptions);
 
 // Show SVG
-spiralSvgWrapperInner.appendChild(spiral.svg);
+spiralSvgWrapper.appendChild(spiral.svg);
 
 // On file input change convert it
 spiralFileInput.addEventListener('change', () => {

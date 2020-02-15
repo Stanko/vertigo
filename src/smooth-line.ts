@@ -58,7 +58,7 @@ const bezierCommand = (point, i, a) => {
 }
 
 
-export default function smoothLine(points) {
+export default function smoothLine(points, shouldClose = true) {
   // build the d attributes by looping over the points
   const d = points.reduce((acc, point, i, a) => {
     if (i === 0) {
@@ -68,5 +68,9 @@ export default function smoothLine(points) {
     return `${acc} ${bezierCommand(point, i, a)}`;
   }, "");
 
-  return d;
+  if (shouldClose) {
+    return `${ d } Z`
+  } else {
+    return d;
+  }
 }

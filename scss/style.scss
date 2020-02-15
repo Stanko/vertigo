@@ -43,17 +43,6 @@ p {
   border-bottom-color: #999;
 }
 
-circle {
-  fill: #f4f7fa;
-  transition: all 500ms;
-}
-
-path {
-  fill: #f4f7fa;
-  // stroke-width: 1px;
-  // stroke: #f4f7fa;
-}
-
 label {
   display: block;
   margin: 20px 0 5px;
@@ -155,17 +144,41 @@ button:focus {
 
 .SvgWrapper-inner {
   width: 100%;
-  background: #242527;
+  background: #f4f7fa;
   border-radius: 50%;
   padding-bottom: 100%;
   height: 0;
   position: relative;
 }
 
+.SvgWrapper-inner--invert {
+  background: #242527;
+}
+
+circle {
+  fill: #242527;
+  transition: all 500ms;
+}
+
+path {
+  fill: #242527;
+}
+
+.SvgWrapper-inner--invert {
+  circle {
+    fill: #f4f7fa;
+  }
+
+  path {
+    fill: #f4f7fa;
+  }
+}
+
 .SvgWrapper svg {
   display: block;
   height: 100%;
   width: 100%;
+  overflow: visible;
 }
 
 .TestImage {

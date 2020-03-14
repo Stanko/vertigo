@@ -20,6 +20,7 @@ export interface IDotsOptions {
   maximumDotRadius: number;
   distanceBetweenDots: number;
   invert: boolean;
+  plottingStep: number;
 };
 
 export interface IDotsOptionsPartial {
@@ -28,6 +29,7 @@ export interface IDotsOptionsPartial {
   maximumDotRadius?: number;
   distanceBetweenDots?: number;
   invert?: boolean;
+  plottingStep?: number;
 };
 
 export const dotsDefaultOptions:IDotsOptions = {
@@ -42,6 +44,9 @@ export const dotsDefaultOptions:IDotsOptions = {
   // By default, images are drawn as white on black
   // disable this option to get black on white
   invert: true,
+  // For pen plotting
+  // draws concentric circles increasing radius by this step
+  plottingStep: 0,
 };
 
 export type TDotsImage = number[][];
@@ -54,6 +59,7 @@ export interface ISpiralOptions {
   distanceBetweenLines: number;
   startingRadius: number;
   invert: boolean;
+  plottingStep: number;
 };
 
 export interface ISpiralOptionsPartial {
@@ -62,6 +68,7 @@ export interface ISpiralOptionsPartial {
   distanceBetweenLines?: number;
   startingRadius?: number;
   invert?: boolean;
+  plottingStep?: number;
 };
 
 export const spiralDefaultOptions:ISpiralOptions = {
@@ -76,6 +83,9 @@ export const spiralDefaultOptions:ISpiralOptions = {
   // By default, images are drawn as white on black
   // disable this option to get black on white
   invert: true,
+  // For pen plotting
+  // draws additional lines increasing gap by this step
+  plottingStep: 0,
 };
 
 

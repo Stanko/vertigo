@@ -6,7 +6,7 @@ export function createOption({
   max,
   min,
   name,
-  step = '1',
+  step = 1,
   value,
 }) {
   const spanRange = document.createElement('span');
@@ -24,11 +24,12 @@ export function createOption({
   input.setAttribute('min', min);
   input.setAttribute('max', max);
   input.setAttribute('value', value);
-  input.setAttribute('step', step);
+  input.setAttribute('step', step.toString());
   input.setAttribute('class', `OptionsInput OptionsInput--${ name }`);
   input.addEventListener('change', e => {
-    callback(name, e.target.value);
-    spanValue.innerHTML = ` ${ e.target.value }`;
+    const value = (e.target as HTMLInputElement).value;
+    callback(name, value);
+    spanValue.innerHTML = ` ${ value }`;
   });
 
   const divOption = document.createElement('div');
@@ -53,7 +54,7 @@ export function createCheckboxOption({
   input.setAttribute('checked', value);
   input.setAttribute('class', `OptionsInput OptionsInput--${ name }`);
   input.addEventListener('change', e => {
-    callback(name, e.target.checked);
+    callback(name, (e.target as HTMLInputElement).checked);
   });
 
   labelName.prepend(input);

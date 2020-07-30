@@ -1,134 +1,10 @@
-import Vertigo from './vertigo';
 import VertigoSpiral from './spiral';
 import {
   ISpiralOptions,
-  IDotsOptions,
 } from './constants';
 import { createOption, createCheckboxOption, downloadSVG } from './demo-helpers';
-import generateRandomImage from './generate-random-image';
 
 const helloImage:HTMLElement = document.querySelector('.TestImage--hello');
-
-// ------- DOTS
-
-const dotsSvgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-inner--dots');
-const dotsSvgWrapper:HTMLElement = document.querySelector('.SvgWrapper-svg--dots');
-const dotsFileInput:HTMLInputElement = document.querySelector('.FileInput--dots');
-const dotsOptionsDiv:HTMLElement = document.querySelector('.Options--dots');
-
-
-const dotsDownloadButton:HTMLAnchorElement = document.querySelector('.Button--dotsDownload');
-const dotsRandomButton:HTMLButtonElement = document.querySelector('.Button--dotsRandom');
-
-const dotsOptions:IDotsOptions = {
-  minimumDotRadius: 1,
-  maximumDotRadius: 5,
-  distanceBetweenDots: 1,
-  resolution: 25,
-  invert: true,
-  plottingStep: 0,
-};
-
-function dotOptionsChangeHandler(name, value) {
-  // Update global options object
-  dotsOptions[name] = parseFloat(value);
-
-  if (name === 'invert') {
-    dotsOptions[name] = Boolean(value);
-
-    if (dotsOptions[name]) {
-      dotsSvgWrapperInner.classList.add('SvgWrapper-inner--invert');
-    } else {
-      dotsSvgWrapperInner.classList.remove('SvgWrapper-inner--invert');
-    }
-  }
-
-  // Redraw vertigo with new options
-  vertigo.setOptions(dotsOptions);
-}
-
-const DOTS_OPTIONS_INPUTS = [
-  {
-    callback: dotOptionsChangeHandler,
-    label: 'Resolution',
-    max: 50,
-    min: 5,
-    name: 'resolution',
-    value: 25,
-  },
-  {
-    callback: dotOptionsChangeHandler,
-    label: 'Minimum dot radius',
-    max: 5,
-    min: 0,
-    name: 'minimumDotRadius',
-    value: 1,
-  },
-  {
-    callback: dotOptionsChangeHandler,
-    label: 'Maximum dot radius',
-    max: 20,
-    min: 1,
-    name: 'maximumDotRadius',
-    value: 5,
-  },
-  {
-    callback: dotOptionsChangeHandler,
-    label: 'Distance between dots',
-    max: 20,
-    min: 0,
-    name: 'distanceBetweenDots',
-    value: 1,
-  },
-  {
-    callback: dotOptionsChangeHandler,
-    label: 'Plotting step',
-    max: 5,
-    min: 0,
-    name: 'plottingStep',
-    value: 0,
-    step: 0.1,
-  },
-];
-
-const DOTS_INVERT_INPUT = {
-  callback: dotOptionsChangeHandler,
-  label: 'Invert colors',
-  name: 'invert',
-  value: true,
-};
-
-DOTS_OPTIONS_INPUTS.forEach(inputData => {
-  dotsOptionsDiv.appendChild(createOption(inputData));
-});
-
-dotsOptionsDiv.appendChild(createCheckboxOption(DOTS_INVERT_INPUT));
-
-
-// Create vertigo instance
-const vertigo = new Vertigo(dotsOptions);
-
-// Show SVG
-dotsSvgWrapper.appendChild(vertigo.svg);
-
-// On file input change convert it
-dotsFileInput.addEventListener('change', () => {
-  const file:File = dotsFileInput.files[0];
-  const imageURL = URL.createObjectURL(file);
-
-  vertigo.convertImage(imageURL);
-});
-
-// Download SVG
-dotsDownloadButton.addEventListener('click', () => downloadSVG(vertigo, 'vertigo'));
-
-// Draw random image
-dotsRandomButton.addEventListener('click', () => {
-  vertigo.drawImage(generateRandomImage(vertigo.getOptions().resolution));
-})
-
-// On load draw hello image :)
-vertigo.convertImage(helloImage.getAttribute('src'));
 
 // -------------- SPIRAL
 
@@ -140,11 +16,11 @@ const spiralSvgWrapperInner:HTMLElement = document.querySelector('.SvgWrapper-in
 
 const spiralOptions:ISpiralOptions = {
   minimumLineWidth: 1,
-  maximumLineWidth: 5,
-  distanceBetweenLines: 1,
+  maximumLineWidth: 3.5,
+  distanceBetweenLines: 1.5,
   startingRadius: 3,
-  invert: true,
-  plottingStep: 0,
+  invert: false,
+  plottingStep: 1,
 };
 
 function spiralOptionsChangeHandler(name, value) {
@@ -181,7 +57,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     min: 1,
     max: 20,
     name: 'maximumLineWidth',
-    value: 5,
+    value: 3.5,
     step: 0.5
   },
   {
@@ -190,7 +66,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     min: 0,
     max: 10,
     name: 'distanceBetweenLines',
-    value: 1,
+    value: 1.5,
     step: 0.5
   },
   {
@@ -208,7 +84,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     max: 10,
     min: 0,
     name: 'plottingStep',
-    value: 0,
+    value: 1,
     step: 0.5,
   },
 ];
@@ -217,7 +93,7 @@ const SPIRAL_INVERT_INPUT = {
   callback: spiralOptionsChangeHandler,
   label: 'Invert colors',
   name: 'invert',
-  value: true,
+  value: false,
 };
 
 
@@ -259,12 +135,7 @@ Array.prototype.slice.call(testImagesElements).forEach(button => {
   button.addEventListener('click', e => {
     const image = document.querySelector(e.target.getAttribute('data-image'));
     const imageURL = image.getAttribute('src');
-    const type = e.target.getAttribute('data-type');
 
-    if (type === 'dots') {
-      vertigo.convertImage(imageURL);
-    } else {
-      spiral.convertImage(imageURL);
-    }
+    spiral.convertImage(imageURL);
   });
 });

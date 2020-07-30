@@ -51,7 +51,9 @@ export function createCheckboxOption({
 
   const input = document.createElement('input');
   input.setAttribute('type', 'checkbox');
-  input.setAttribute('checked', value);
+  if (value) {
+    input.setAttribute('checked', 'checked');
+  }
   input.setAttribute('class', `OptionsInput OptionsInput--${ name }`);
   input.addEventListener('change', e => {
     callback(name, (e.target as HTMLInputElement).checked);

@@ -25,76 +25,9 @@
 </head>
 <body>
   <div class="App">
-    <div class="Intro">
-      <h1>Vertigo</h1>
-      <p>
-        This is a small project, which converts raster images
-        to a vector, using two different "shaders".
-        Available shaders are
-        <a class="Link" href="#dots">circular dot grid</a> and
-        <a class="Link" href="#spiral">spiral of a variable width</a>.
-      <p>
-
-      <p>
-        Vertigo is open source, and you can find the code on
-        <a class="Link" href="https://github.com/stanko/vertigo">GitHub</a>.
-        If you like it, I write about things like this on
-        <a class="Link" href="https://muffinman.io">my blog</a>
-      </p>
-
-      <h2 id="dots">Cirular dot grid</h2>
-      <p>Original Vertigo, converts any raster image to a SVG,
-        and renders it as a grayscale image on
-        a circular dot grid.
-      <p>
-    </div>
     <div class="Content">
       <div class="SvgWrapper">
-        <div class="SvgWrapper-inner SvgWrapper-inner--dots SvgWrapper-inner--invert">
-          <div class="SvgWrapper-svg SvgWrapper-svg--dots"></div>
-        </div>
-      </div>
-
-      <div class="Controls">
-        <div>
-          <input type="file" class="FileInput FileInput--dots" id="dots-file-input" />
-          <label class="Button Button--noTopMargin" for="dots-file-input">
-            Select file
-          </label>
-          <button class="Button Button--download Button--dotsDownload">
-            Download SVG
-          </button>
-          <button class="Button Button--dotsRandom">Random Image</button>
-        </div>
-        <div>
-          <label>Test images:</label>
-          <button class="TestImageButton" data-image=".TestImage--hello" type="button" data-type="dots">
-            Hello
-          </button>
-          <button class="TestImageButton" data-image=".TestImage--hk" type="button" data-type="dots">
-            Hollow Knight
-          </button>
-          <button class="TestImageButton" data-image=".TestImage--zappa" type="button" data-type="dots">
-            Zappa
-          </button>
-        </div>
-        <div class="Options Options--dots">
-        </div>
-      </div>
-    </div>
-    <div class="Debug Debug--dots"></div>
-
-    <!-- SPIRAL -->
-    <div class="Intro">
-      <h2 id="spiral">Spiral</h2>
-      <p>
-        Converts any raster image to a SVG,
-        and renders it as a spiral line of a variable width.
-      <p>
-    </div>
-    <div class="Content">
-      <div class="SvgWrapper">
-        <div class="SvgWrapper-inner SvgWrapper-inner--spiral SvgWrapper-inner--invert">
+        <div class="SvgWrapper-inner SvgWrapper-inner--spiral">
           <div class="SvgWrapper-svg SvgWrapper-svg--spiral"></div>
         </div>
       </div>
@@ -136,7 +69,7 @@
     </div>
     <div class="Debug Debug--spiral"></div>
   </div>
-  <img src="./test-images/hello.png" class="TestImage TestImage--hello" />
+  <img src="./test-images/nina-cropped.png" class="TestImage TestImage--hello" />
   <img src="./test-images/hk.jpg" class="TestImage TestImage--hk" />
   <img src="./test-images/zappa.jpg" class="TestImage TestImage--zappa" />
 

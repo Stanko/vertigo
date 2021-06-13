@@ -95,9 +95,37 @@ export default class Vertigo {
     }
   }
 
+  private generatePlottingHelpers(dotScale: number, dot:IDot) {
+    const x = dot.element.getAttribute('cx');
+    const y = dot.element.getAttribute('cy');
+    const xNumber = parseFloat(x);
+
+    const className = 'Dots-plottingHelper';
+
+    // Skip center line if dotScale is smaller than threshold
+    if (dotScale > 1) {
+      const centerLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const d = `M ${ xNumber - 0.1 } ${ y } L ${ xNumber + 0.1 } ${ y }`;
+      centerLine.setAttribute('d', d);
+      centerLine.setAttribute('class', className);
+      this.svg.appendChild(centerLine);
+    }
+
+    for (let r = this.options.plottingStep; r < dotScale; r += this.options.plottingStep) {
+      const plotDot = Vertigo.createDot(x, y, r, className);
+
+      this.svg.appendChild(plotDot.element);
+    }
+  }
+
   public drawImage(image:TDotsImage) {
     // Remove saved image file because we are drawing a custom image
     this.imageURL = null;
+
+    // Remove all plotting dot helpers
+    this.svg.querySelectorAll('.Dots-plottingHelper').forEach(plotDot => {
+      this.svg.removeChild(plotDot);
+    });
 
     image.forEach((dots:number[], i:number) => {
       dots.forEach((dotScale:number, j:number) => {
@@ -110,6 +138,10 @@ export default class Vertigo {
             dot.scale = dotScale;
 
             dot.element.setAttribute('r', dotScale.toString());
+          }
+
+          if (this.options.plottingStep > 0) {
+            this.generatePlottingHelpers(dotScale, dot);
           }
         }
       });

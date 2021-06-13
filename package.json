@@ -19,9 +19,9 @@
     "ie 11"
   ],
   "devDependencies": {
-    "file-saver": "^2.0.2",
-    "node-sass": "^4.13.1",
-    "parcel-bundler": "^1.12.4",
-    "typescript": "^3.7.5"
+    "file-saver": "^2.0.5",
+    "node-sass": "^6.0.0",
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^4.3.2"
   }
 }

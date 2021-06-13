@@ -26,11 +26,12 @@ const dotsOptions:IDotsOptions = {
   distanceBetweenDots: 1,
   resolution: 25,
   invert: true,
+  plottingStep: 0,
 };
 
 function dotOptionsChangeHandler(name, value) {
   // Update global options object
-  dotsOptions[name] = parseInt(value, 10);
+  dotsOptions[name] = parseFloat(value);
 
   if (name === 'invert') {
     dotsOptions[name] = Boolean(value);
@@ -78,6 +79,15 @@ const DOTS_OPTIONS_INPUTS = [
     min: 0,
     name: 'distanceBetweenDots',
     value: 1,
+  },
+  {
+    callback: dotOptionsChangeHandler,
+    label: 'Plotting step',
+    max: 5,
+    min: 0,
+    name: 'plottingStep',
+    value: 0,
+    step: 0.1,
   },
 ];
 
@@ -134,11 +144,12 @@ const spiralOptions:ISpiralOptions = {
   distanceBetweenLines: 1,
   startingRadius: 3,
   invert: true,
+  plottingStep: 0,
 };
 
 function spiralOptionsChangeHandler(name, value) {
   // Update global options object
-  spiralOptions[name] = parseInt(value, 10);
+  spiralOptions[name] = parseFloat(value);
 
   if (name === 'invert') {
     spiralOptions[name] = Boolean(value);
@@ -162,6 +173,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     max: 5,
     name: 'minimumLineWidth',
     value: 1,
+    step: 0.5
   },
   {
     callback: spiralOptionsChangeHandler,
@@ -170,6 +182,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     max: 20,
     name: 'maximumLineWidth',
     value: 5,
+    step: 0.5
   },
   {
     callback: spiralOptionsChangeHandler,
@@ -178,6 +191,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     max: 10,
     name: 'distanceBetweenLines',
     value: 1,
+    step: 0.5
   },
   {
     callback: spiralOptionsChangeHandler,
@@ -186,6 +200,16 @@ const SPIRAL_OPTIONS_INPUTS = [
     max: 300,
     name: 'startingRadius',
     value: 3,
+    step: 0.5
+  },
+  {
+    callback: spiralOptionsChangeHandler,
+    label: 'Plotting step',
+    max: 10,
+    min: 0,
+    name: 'plottingStep',
+    value: 0,
+    step: 0.5,
   },
 ];
 

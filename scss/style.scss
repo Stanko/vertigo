@@ -1,12 +1,13 @@
 $color-light: #f4f7fa;
 $color-dark: #242527;
-$color-blue: #2980B9;
+$color-blue: #2980b9;
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  background: #DDE1E7;
-    color: #333;
+  font-size: 17px;
+  color: #777;
+  background: #ebeef3;
+  margin-bottom: 150px;
 }
 
 * {
@@ -16,19 +17,22 @@ body {
 }
 
 h1 {
-  font-weight: normal;
+  font-weight: bold;
+  letter-spacing: -1px;
   margin-bottom: 20px;
-  color: $color-blue;
+  color: #111;
+  font-size: 50px;
 }
 
 h2 {
-  padding-top: 20px;
   font-weight: normal;
+  color: #111;
   margin-bottom: 10px;
+  padding-top: 20px;
 }
 
-h2#dots {
-  margin-top: 50px;
+h2#spiral {
+  margin-top: 40px;
 }
 
 p {
@@ -104,15 +108,20 @@ button:focus {
   opacity: 0;
 }
 
-.App {
-  margin: 0 auto 100px;
+.Header {
+  // background: #dbdee3;
+  // border-bottom: 1px solid #e3e6eb;
+  padding: 20px 0;
 }
 
-.Intro {
+.Description {
   padding: 20px;
   margin: 0 auto;
   max-width: 500px;
-  text-align: center;
+}
+
+.Description--narrow p {
+  max-width: 350px;
 }
 
 .Debug {
@@ -174,7 +183,6 @@ circle {
 path {
   fill: $color-dark;
 }
-
 
 .SvgWrapper-inner--invert {
   circle {
@@ -242,25 +250,24 @@ path {
   }
 }
 
-
 small {
   margin-top: 50px;
   display: block;
   color: #999;
 }
 
-input[type=range] {
+input[type="range"] {
   -webkit-appearance: none;
   width: 60%;
   background: none;
   padding: 0;
 }
 
-input[type=range]:focus {
+input[type="range"]:focus {
   outline: none;
 }
 
-input[type=range]::-webkit-slider-runnable-track {
+input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 8px;
   cursor: pointer;
@@ -268,7 +275,7 @@ input[type=range]::-webkit-slider-runnable-track {
   border-radius: 4px;
 }
 
-input[type=range]::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   height: 20px;
   width: 20px;
   border-radius: 10px;
@@ -278,15 +285,15 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -6px;
 }
 
-input[type=range]:focus::-webkit-slider-runnable-track {
+input[type="range"]:focus::-webkit-slider-runnable-track {
   background: rgba(0, 0, 0, 0.15);
 }
 
-input[type=range]:focus::-webkit-slider-thumb {
+input[type="range"]:focus::-webkit-slider-thumb {
   background: $color-blue;
 }
 
-input[type=range]::-moz-range-track {
+input[type="range"]::-moz-range-track {
   width: 100%;
   height: 8px;
   cursor: pointer;
@@ -294,7 +301,7 @@ input[type=range]::-moz-range-track {
   border-radius: 25px;
 }
 
-input[type=range]::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
   height: 20px;
   width: 20px;
   border-radius: 10px;
@@ -302,7 +309,7 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 
-input[type=range]::-ms-track {
+input[type="range"]::-ms-track {
   width: 100%;
   height: 10px;
   cursor: pointer;
@@ -311,17 +318,17 @@ input[type=range]::-ms-track {
   color: transparent;
 }
 
-input[type=range]::-ms-fill-lower {
+input[type="range"]::-ms-fill-lower {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 50px;
 }
 
-input[type=range]::-ms-fill-upper {
+input[type="range"]::-ms-fill-upper {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 50px;
 }
 
-input[type=range]::-ms-thumb {
+input[type="range"]::-ms-thumb {
   height: 20px;
   width: 20px;
   border-radius: 10px;
@@ -329,10 +336,10 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
 }
 
-input[type=range]:focus::-ms-fill-lower {
+input[type="range"]:focus::-ms-fill-lower {
   background: rgba(0, 0, 0, 0.1);
 }
 
-input[type=range]:focus::-ms-fill-upper {
+input[type="range"]:focus::-ms-fill-upper {
   background: rgba(43, 43, 43, 0.1);
 }

@@ -1,19 +1,19 @@
 // The smoothing ratio
-const smoothing = 0.2
+const smoothing = 0.2;
 
 // Properties of a line
 // I:  - pointA (array) [x,y]: coordinates
 //     - pointB (array) [x,y]: coordinates
 // O:  - (object) { length: l, angle: a }: properties of the line
 const lineProperties = (pointA, pointB) => {
-  const lengthX = pointB.x - pointA.x
-  const lengthY = pointB.y - pointA.y
+  const lengthX = pointB.x - pointA.x;
+  const lengthY = pointB.y - pointA.y;
 
   return {
     length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
-    angle: Math.atan2(lengthY, lengthX)
-  }
-}
+    angle: Math.atan2(lengthY, lengthX),
+  };
+};
 
 // Position of a control point
 // I:  - current (array) [x, y]: current point coordinates
@@ -22,7 +22,6 @@ const lineProperties = (pointA, pointB) => {
 //     - reverse (boolean, optional): sets the direction
 // O:  - (array) [x,y]: a tuple of coordinates
 const controlPoint = (current, previous, next, reverse = false) => {
-
   // When 'current' is the first or last point of the array
   // 'previous' or 'next' don't exist.
   // Replace with 'current'
@@ -39,8 +38,8 @@ const controlPoint = (current, previous, next, reverse = false) => {
   // The control point position is relative to the current point
   const x = current.x + Math.cos(angle) * length;
   const y = current.y + Math.sin(angle) * length;
-  return { x, y }
-}
+  return { x, y };
+};
 
 // Create the bezier curve command
 // I:  - point (array) [x,y]: current point coordinates
@@ -54,9 +53,8 @@ const bezierCommand = (point, i, a) => {
   // end control point
   const cpe = controlPoint(point, a[i - 1], a[i + 1], true);
 
-  return `C ${cps.x},${cps.y} ${cpe.x},${cpe.y} ${point.x},${point.y}`
-}
-
+  return `C ${cps.x},${cps.y} ${cpe.x},${cpe.y} ${point.x},${point.y}`;
+};
 
 export default function smoothLine(points, shouldClose = true) {
   // build the d attributes by looping over the points
@@ -69,7 +67,7 @@ export default function smoothLine(points, shouldClose = true) {
   }, "");
 
   if (shouldClose) {
-    return `${ d } Z`
+    return `${d} Z`;
   } else {
     return d;
   }

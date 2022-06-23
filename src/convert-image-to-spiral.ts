@@ -1,9 +1,4 @@
-import {
-  drawImageOnCanvas,
-  getRectBrightness,
-  mapRange,
-  toFixed,
-} from './helpers';
+import { drawImageOnCanvas, getRectBrightness, mapRange, toFixed } from "./helpers";
 import {
   DEBUG,
   ISpiralOptions,
@@ -11,25 +6,24 @@ import {
   MAXIMUM_BRIGHTNESS,
   spiralDefaultOptions,
   TSpiralImage,
-} from './constants';
-
+} from "./constants";
 
 export default function convertImageToSpiral(
-  imageSrc:string,
-  customOptions:ISpiralOptionsPartial,
-  callback:(convertedImage:TSpiralImage) => void
+  imageSrc: string,
+  customOptions: ISpiralOptionsPartial,
+  callback: (convertedImage: TSpiralImage) => void
 ) {
   const size = 500;
 
-  const options:ISpiralOptions = {
+  const options: ISpiralOptions = {
     ...spiralDefaultOptions,
     ...customOptions,
   };
 
   drawImageOnCanvas(imageSrc, size, (canvas) => {
-    const ctx:CanvasRenderingContext2D = canvas.getContext('2d');
+    const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
     const helperRectangles = [];
-    const convertedImage:TSpiralImage = [];
+    const convertedImage: TSpiralImage = [];
 
     const center = size / 2;
 
@@ -40,7 +34,9 @@ export default function convertImageToSpiral(
 
     // Size of the image, minus the width of the starting circle
     // divided by the distance between lines
-    const maxHalfRotationsCount = Math.floor((size - (options.startingRadius * 2)) / (options.distanceBetweenLines + options.maximumLineWidth));
+    const maxHalfRotationsCount = Math.floor(
+      (size - options.startingRadius * 2) / (options.distanceBetweenLines + options.maximumLineWidth)
+    );
 
     // Maximum spiral angle
     const maxAngle = maxHalfRotationsCount * Math.PI; // size / 2.1 / distance; // In radians
@@ -74,20 +70,14 @@ export default function convertImageToSpiral(
     callback(convertedImage);
 
     if (DEBUG) {
-      ctx.strokeStyle = 'orange';
+      ctx.strokeStyle = "orange";
 
-      helperRectangles.forEach(rect => {
+      helperRectangles.forEach((rect) => {
         ctx.strokeRect(rect.x, rect.y, rectangleSize, rectangleSize);
       });
 
-      document.querySelector('.Debug--spiral').innerHTML = '';
-      document.querySelector('.Debug--spiral').appendChild(canvas);
+      document.querySelector(".Debug--spiral").innerHTML = "";
+      document.querySelector(".Debug--spiral").appendChild(canvas);
     }
   });
 }
-
-
-
-
-
-

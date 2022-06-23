@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "pretty": true,
+    "resolveJsonModule": true,
+    // "strict": true, // switch on if I ever get time to clean up the code
+    "module": "commonjs",
+    "outDir": "docs",
+    "target": "es2015"
+  },
+  "exclude": ["node_modules", "dist"]
+}

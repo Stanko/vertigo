@@ -1,6 +1,8 @@
 // -- Global
 
-export const DEBUG = false;
+export const isClient = typeof window !== "undefined";
+
+export const DEBUG = isClient ? window.location.hash === "#debug" : false;
 
 export const MAXIMUM_BRIGHTNESS = 255;
 
@@ -12,7 +14,7 @@ export interface IDot {
 // -- Dots
 
 // How many dots are added with each concentric circle
-export const DOT_INCREMENT_STEP:number = 6;
+export const DOT_INCREMENT_STEP: number = 6;
 
 export interface IDotsOptions {
   resolution: number;
@@ -21,7 +23,7 @@ export interface IDotsOptions {
   distanceBetweenDots: number;
   invert: boolean;
   plottingStep: number;
-};
+}
 
 export interface IDotsOptionsPartial {
   resolution?: number;
@@ -30,9 +32,9 @@ export interface IDotsOptionsPartial {
   distanceBetweenDots?: number;
   invert?: boolean;
   plottingStep?: number;
-};
+}
 
-export const dotsDefaultOptions:IDotsOptions = {
+export const dotsDefaultOptions: IDotsOptions = {
   // Number of concentric circles
   resolution: 25,
   // Minimum dot radius
@@ -60,7 +62,7 @@ export interface ISpiralOptions {
   startingRadius: number;
   invert: boolean;
   plottingStep: number;
-};
+}
 
 export interface ISpiralOptionsPartial {
   minimumLineWidth?: number;
@@ -69,9 +71,9 @@ export interface ISpiralOptionsPartial {
   startingRadius?: number;
   invert?: boolean;
   plottingStep?: number;
-};
+}
 
-export const spiralDefaultOptions:ISpiralOptions = {
+export const spiralDefaultOptions: ISpiralOptions = {
   // Minimum line width
   minimumLineWidth: 1,
   // Maximum line width
@@ -88,12 +90,10 @@ export const spiralDefaultOptions:ISpiralOptions = {
   plottingStep: 0,
 };
 
-
-
 export interface ISpiralSegment {
   x: number;
   y: number;
   width: number;
-};
+}
 
 export type TSpiralImage = ISpiralSegment[];

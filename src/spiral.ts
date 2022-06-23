@@ -1,26 +1,16 @@
-import {
-  IDot,
-  ISpiralOptions,
-  ISpiralOptionsPartial,
-  spiralDefaultOptions,
-  TSpiralImage,
-} from "./constants";
-import {
-  createSvg,
-  toFixed,
-} from './helpers';
+import { IDot, ISpiralOptions, ISpiralOptionsPartial, spiralDefaultOptions, TSpiralImage } from "./constants";
+import { createSvg, toFixed } from "./helpers";
 
-import convertImageToSpiral from './convert-image-to-spiral'
+import convertImageToSpiral from "./convert-image-to-spiral";
 import smoothLine from "./smooth-line";
 
 type TSpiralConvertCallback = (convertedImage: TSpiralImage) => void;
-
 
 const SVG_SIZE = 500;
 
 export default class VertigoSpiral {
   private options: ISpiralOptions;
-  private imageURL: string;
+  private imageURL: string | null = null;
   private svgPath: SVGPathElement;
 
   public svg: SVGElement;
@@ -31,15 +21,15 @@ export default class VertigoSpiral {
       ...options,
     };
 
-    this.svg = createSvg(SVG_SIZE, false, 'Spiral');
+    this.svg = createSvg(SVG_SIZE, false, "Spiral");
 
-    this.svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    this.svgPath.setAttribute('class', 'Spiral-path');
+    this.svgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    this.svgPath.setAttribute("class", "Spiral-path");
 
     this.svg.appendChild(this.svgPath);
   }
 
-  public convertImage(imageURL, callback?: TSpiralConvertCallback) {
+  public convertImage(imageURL: string, callback?: TSpiralConvertCallback) {
     convertImageToSpiral(imageURL, this.options, (convertedImage: TSpiralImage) => {
       this.drawImage(convertedImage);
       this.imageURL = imageURL;
@@ -103,18 +93,15 @@ export default class VertigoSpiral {
       y: toFixed(dot.y - halfWidth * Math.sin(angle + Math.PI), 2),
     };
 
-    const outerDots = [
-      point1,
-      point2,
-    ];
+    const outerDots = [point1, point2];
 
     return outerDots;
   }
 
   private static getVector(a, b) {
     return {
-      x: (a.x - b.x),
-      y: (a.y - b.y),
+      x: a.x - b.x,
+      y: a.y - b.y,
     };
   }
 
@@ -148,30 +135,31 @@ export default class VertigoSpiral {
       pathInner.push(od[1]);
     }
 
-    const pathPoints = [
-      ...pathOuter,
-      ...pathInner.reverse(),
-    ];
+    const pathPoints = [...pathOuter, ...pathInner.reverse()];
 
     return smoothLine(pathPoints);
   }
 
   private generatePlottingHelpers(image) {
-    const plottingImageCopy = image.map(point => ({ ...point }));
-    const centralLine = image.map(point => ({ ...point }));
+    const plottingImageCopy = image.map((point) => ({ ...point }));
+    const centralLine = image.map((point) => ({ ...point }));
     // Removing the first and the last point
     // for the central line as they are not used by "generatePath"
     centralLine.shift();
     centralLine.pop();
 
-    const centralLinePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    centralLinePath.setAttribute('class', 'Spiral-plottingHelper');
-    centralLinePath.setAttribute('d', smoothLine(centralLine, false ));
+    const centralLinePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    centralLinePath.setAttribute("class", "Spiral-plottingHelper");
+    centralLinePath.setAttribute("d", smoothLine(centralLine, false));
 
     this.svg.appendChild(centralLinePath);
 
-    for (let step = this.options.plottingStep; step < this.options.maximumLineWidth; step += this.options.plottingStep) {
-      plottingImageCopy.forEach(point => {
+    for (
+      let step = this.options.plottingStep;
+      step < this.options.maximumLineWidth;
+      step += this.options.plottingStep
+    ) {
+      plottingImageCopy.forEach((point) => {
         point.width = point.width - this.options.plottingStep;
 
         if (point.width < 0) {
@@ -180,19 +168,19 @@ export default class VertigoSpiral {
       });
       const d = this.generatePath(plottingImageCopy);
 
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('class', 'Spiral-plottingHelper');
-      path.setAttribute('d', d);
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("class", "Spiral-plottingHelper");
+      path.setAttribute("d", d);
 
       this.svg.appendChild(path);
     }
   }
 
   public drawImage(image) {
-    this.svgPath.setAttribute('d', this.generatePath(image));
+    this.svgPath.setAttribute("d", this.generatePath(image));
 
     // Remove all plotting lines helpers
-    this.svg.querySelectorAll('.Spiral-plottingHelper').forEach(plotDot => {
+    this.svg.querySelectorAll(".Spiral-plottingHelper").forEach((plotDot) => {
       this.svg.removeChild(plotDot);
     });
 
@@ -201,7 +189,7 @@ export default class VertigoSpiral {
     }
   }
 
-  public setOptions(newOptions:ISpiralOptionsPartial, callback?:TSpiralConvertCallback) {
+  public setOptions(newOptions: ISpiralOptionsPartial, callback?: TSpiralConvertCallback) {
     this.options = {
       ...this.options,
       ...newOptions,
@@ -213,6 +201,6 @@ export default class VertigoSpiral {
   }
 
   public getOptions() {
-    return { ...this.options }
+    return { ...this.options };
   }
 }

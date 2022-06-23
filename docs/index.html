@@ -1,1 +1,129 @@
-<html lang="en"><head><link rel="stylesheet" type="text/css" href="/vertigo/style.1d95949a.css"><meta charset="utf-8"><title>Vertigo</title><meta property="og:title" content="Vertigo"><meta property="og:site_name" content="Vertigo"><meta property="og:description" content="Convert and render any image on a circular dot grid or as a spiral of a variable width."><meta name="description" content="Convert and render any image on a circular dot grid or as a spiral of a variable width."><meta property="og:image" content="/vertigo/zappa.ed8bffc3.png"><meta property="og:url" content="https://muffinman.io/vertigo/"><meta name="twitter:title" content="Vertigo"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5"><link rel="apple-touch-icon" sizes="180x180" href="https://stanko.github.io/public/favicon/apple-touch-icon.png?v=v3"><link rel="icon" type="image/png" sizes="32x32" href="https://stanko.github.io/public/favicon/favicon-32x32.png?v=v3"><link rel="icon" type="image/png" sizes="16x16" href="https://stanko.github.io/public/favicon/favicon-16x16.png?v=v3"><link rel="mask-icon" href="https://stanko.github.io/public/favicon/safari-pinned-tab.svg?v=v3" color="#e04856"><link rel="icon shortcut" href="https://stanko.github.io/public/favicon/favicon.ico?v=v3"><meta name="msapplication-config" content="https://stanko.github.io/public/favicon/browserconfig.xml?v=v3"><meta name="theme-color" content="#ffffff"></head><body> <div class="Header"> <div class="Description"> <h1>Vertigo</h1> <div> <p> This is a small project, which converts raster images to a vector, using two different "shaders". Available shaders are <a class="Link" href="#dots">circular dot grid</a> and <a class="Link" href="#spiral">spiral of a variable width</a>. </p> <p> Vertigo is open source, and you can find the code on <a class="Link" href="https://github.com/stanko/vertigo">GitHub</a>. If you like it, I write about things like this on <a class="Link" href="https://muffinman.io">my blog</a> </p> </div> </div> </div> <div class="Description Description--narrow"> <h2 id="dots">Cirular dot grid</h2> <p> Original Vertigo, converts any raster image to a SVG, and renders it as a grayscale image on a circular dot grid. </p> <p></p> </div> <div class="Content"> <div class="SvgWrapper"> <div class="SvgWrapper-inner SvgWrapper-inner--dots SvgWrapper-inner--invert"> <div class="SvgWrapper-svg SvgWrapper-svg--dots"></div> </div> </div> <div class="Controls"> <div> <input type="file" class="FileInput FileInput--dots" id="dots-file-input"> <label class="Button Button--noTopMargin" for="dots-file-input"> Select file </label> <button class="Button Button--dotsDownload Button--download">Download SVG</button> <button class="Button Button--dotsRandom">Random Image</button> </div> <div> <label>Test images:</label> <button class="TestImageButton" data-image=".TestImage--hello" type="button" data-type="dots">Hello</button> <button class="TestImageButton" data-image=".TestImage--hk" type="button" data-type="dots"> Hollow Knight </button> <button class="TestImageButton" data-image=".TestImage--zappa" type="button" data-type="dots">Zappa</button> </div> <div class="Options Options--dots"></div> </div> </div> <div class="Debug Debug--dots"></div>  <div class="Description Description--narrow"> <h2 id="spiral">Spiral</h2> <p>Converts any raster image to a SVG, and renders it as a spiral line of a variable width.</p> <p></p> </div> <div class="Content"> <div class="SvgWrapper"> <div class="SvgWrapper-inner SvgWrapper-inner--invert SvgWrapper-inner--spiral"> <div class="SvgWrapper-svg SvgWrapper-svg--spiral"></div> </div> </div> <div class="Controls"> <div> <input type="file" class="FileInput FileInput--spiral" id="spiral-file-input"> <label class="Button Button--noTopMargin" for="spiral-file-input"> Select file </label> <button class="Button Button--download Button--spiralDownload">Download SVG</button> </div> <div> <label>Test images:</label> <button class="TestImageButton" data-image=".TestImage--hello" type="button">Hello</button> <button class="TestImageButton" data-image=".TestImage--hk" type="button">Hollow Knight</button> <button class="TestImageButton" data-image=".TestImage--zappa" type="button">Zappa</button> </div> <div class="Options Options--spiral"></div> </div> </div> <div class="Debug Debug--spiral"></div> <img src="/vertigo/hello.e28088ba.png" class="TestImage TestImage--hello"> <img src="/vertigo/hk.24bb847b.jpg" class="TestImage TestImage--hk"> <img src="/vertigo/zappa.20f48f5d.jpg" class="TestImage TestImage--zappa"> <script src="/vertigo/demo.eccce606.js"></script> </body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="./docs.css" />
+
+  <meta charset="utf-8" />
+
+  <title>Vertigo</title>
+  <meta property="og:title" content="Vertigo" />
+  <meta property="og:site_name" content="Vertigo" />
+  <meta property="og:description"
+    content="Convert and render any image on a circular dot grid or as a spiral of a variable width." />
+  <meta name="description"
+    content="Convert and render any image on a circular dot grid or as a spiral of a variable width." />
+  <meta property="og:image" content="./zappa.png" />
+  <meta property="og:url" content="https://muffinman.io/vertigo/" />
+  <meta name="twitter:title" content="Vertigo" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
+
+  <!-- Icons -->
+  <!-- Icons -->
+  <link rel="icon" href="https://muffinman.io/favicon/gray/icon-32.ico" sizes="any" />
+  <link rel="icon" href="https://muffinman.io/favicon/gray/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="https://muffinman.io/favicon/gray/icon-180.png" />
+  <link rel="manifest" href="https://muffinman.io/favicon/gray/manifest.webmanifest" />
+</head>
+
+<body>
+  <div class="Header">
+    <div class="Description">
+      <h1>Vertigo</h1>
+
+      <div>
+        <p>
+          This is a small project, which converts raster images to a vector, using two different "shaders". Available
+          shaders are
+          <a class="Link" href="#dots">circular dot grid</a> and
+          <a class="Link" href="#spiral">spiral of a variable width</a>.
+        </p>
+
+        <p>
+          Vertigo is open source, and you can find the code on
+          <a class="Link" href="https://github.com/stanko/vertigo">GitHub</a>. If you like it, I write about things
+          like this on
+          <a class="Link" href="https://muffinman.io">my blog</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="Description Description--narrow">
+    <h2 id="dots">Cirular dot grid</h2>
+    <p>
+      Original Vertigo, converts any raster image to a SVG, and renders it as a grayscale image on a circular dot
+      grid.
+    </p>
+
+    <p></p>
+  </div>
+
+  <div class="Content">
+    <div class="SvgWrapper">
+      <div class="SvgWrapper-inner SvgWrapper-inner--dots SvgWrapper-inner--invert">
+        <div class="SvgWrapper-svg SvgWrapper-svg--dots"></div>
+      </div>
+    </div>
+
+    <div class="Controls">
+      <div>
+        <input type="file" class="FileInput FileInput--dots" id="dots-file-input" />
+        <label class="Button Button--noTopMargin" for="dots-file-input"> Select file </label>
+        <button class="Button Button--download Button--dotsDownload">Download SVG</button>
+        <button class="Button Button--dotsRandom">Random Image</button>
+      </div>
+      <div>
+        <label>Test images:</label>
+        <button class="TestImageButton" data-image=".TestImage--hello" type="button" data-type="dots">Hello</button>
+        <button class="TestImageButton" data-image=".TestImage--hk" type="button" data-type="dots">
+          Hollow Knight
+        </button>
+        <button class="TestImageButton" data-image=".TestImage--zappa" type="button" data-type="dots">Zappa</button>
+      </div>
+      <div class="Options Options--dots"></div>
+    </div>
+  </div>
+  <div class="Debug Debug--dots"></div>
+
+  <!-- SPIRAL -->
+  <div class="Description Description--narrow">
+    <h2 id="spiral">Spiral</h2>
+    <p>Converts any raster image to a SVG, and renders it as a spiral line of a variable width.</p>
+
+    <p></p>
+  </div>
+
+  <div class="Content">
+    <div class="SvgWrapper">
+      <div class="SvgWrapper-inner SvgWrapper-inner--spiral SvgWrapper-inner--invert">
+        <div class="SvgWrapper-svg SvgWrapper-svg--spiral"></div>
+      </div>
+    </div>
+
+    <div class="Controls">
+      <div>
+        <input type="file" class="FileInput FileInput--spiral" id="spiral-file-input" />
+        <label class="Button Button--noTopMargin" for="spiral-file-input"> Select file </label>
+        <button class="Button Button--download Button--spiralDownload">Download SVG</button>
+      </div>
+      <div>
+        <label>Test images:</label>
+        <button class="TestImageButton" data-image=".TestImage--hello" type="button">Hello</button>
+        <button class="TestImageButton" data-image=".TestImage--hk" type="button">Hollow Knight</button>
+        <button class="TestImageButton" data-image=".TestImage--zappa" type="button">Zappa</button>
+      </div>
+      <div class="Options Options--spiral"></div>
+    </div>
+  </div>
+  <div class="Debug Debug--spiral"></div>
+
+  <img src="./test-images/hello.png" class="TestImage TestImage--hello" />
+  <img src="./test-images/hk.jpg" class="TestImage TestImage--hk" />
+  <img src="./test-images/zappa.jpg" class="TestImage TestImage--zappa" />
+
+
+  <script src="/vertigo/build/docs.js"></script>
+</body>
+
+</html>

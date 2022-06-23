@@ -1,9 +1,4 @@
-import {
-  drawImageOnCanvas,
-  getRectBrightness,
-  mapRange,
-  toFixed,
-} from './helpers';
+import { drawImageOnCanvas, getRectBrightness, mapRange, toFixed } from "./helpers";
 import {
   DEBUG,
   DOT_INCREMENT_STEP,
@@ -12,8 +7,7 @@ import {
   IDotsOptionsPartial,
   MAXIMUM_BRIGHTNESS,
   TDotsImage,
-} from './constants';
-
+} from "./constants";
 
 function getDotSizeFromRect(brightness, minimumDotRadius, maximumDotRadius) {
   const circleSize = mapRange(brightness, MAXIMUM_BRIGHTNESS, minimumDotRadius, maximumDotRadius);
@@ -25,8 +19,8 @@ function getRectCornerFromCenter(r, angle, rectangleSize, size) {
   const rectCenterX = r * Math.cos(angle);
   const rectCenterY = r * Math.sin(angle);
 
-  const x = rectCenterX - (rectangleSize / 2) + (size / 2);
-  const y = rectCenterY - (rectangleSize / 2) + (size / 2);
+  const x = rectCenterX - rectangleSize / 2 + size / 2;
+  const y = rectCenterY - rectangleSize / 2 + size / 2;
 
   return {
     x,
@@ -44,21 +38,21 @@ function getRectCornerFromCenter(r, angle, rectangleSize, size) {
 // }
 
 export default function convertImageToDots(
-  imageSrc:string,
-  customOptions:IDotsOptionsPartial,
-  callback:(convertedImage:TDotsImage) => void
+  imageSrc: string,
+  customOptions: IDotsOptionsPartial,
+  callback: (convertedImage: TDotsImage) => void
 ) {
   const size = 500;
 
-  const options:IDotsOptions = {
+  const options: IDotsOptions = {
     ...dotsDefaultOptions,
     ...customOptions,
   };
 
   drawImageOnCanvas(imageSrc, size, (canvas) => {
-    const ctx:CanvasRenderingContext2D = canvas.getContext('2d');
+    const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
-    const convertedImage:TDotsImage = [[]];
+    const convertedImage: TDotsImage = [[]];
     const rectangleSize = size / 2 / (options.resolution + 0.5);
 
     const helperRectangles = [];
@@ -74,7 +68,7 @@ export default function convertImageToDots(
     convertedImage[0][0] = getDotSizeFromRect(brightness, options.minimumDotRadius, options.maximumDotRadius);
 
     if (DEBUG) {
-      helperRectangles.push({ x, y })
+      helperRectangles.push({ x, y });
     }
 
     for (let i = 1; i <= options.resolution; i++) {
@@ -86,7 +80,7 @@ export default function convertImageToDots(
       convertedImage[i] = [];
 
       for (let j = 0; j < dotCount; j++) {
-        const angle = Math.PI * (dotAngleStep * j) / 180;
+        const angle = (Math.PI * (dotAngleStep * j)) / 180;
 
         const { x, y } = getRectCornerFromCenter(r, angle, rectangleSize, size);
 
@@ -107,14 +101,14 @@ export default function convertImageToDots(
     callback(convertedImage);
 
     if (DEBUG) {
-      ctx.strokeStyle = 'orange';
+      ctx.strokeStyle = "orange";
 
-      helperRectangles.forEach(rect => {
+      helperRectangles.forEach((rect) => {
         ctx.strokeRect(rect.x, rect.y, rectangleSize, rectangleSize);
       });
 
-      document.querySelector('.Debug--dots').innerHTML = '';
-      document.querySelector('.Debug--dots').appendChild(canvas);
+      document.querySelector(".Debug--dots").innerHTML = "";
+      document.querySelector(".Debug--dots").appendChild(canvas);
     }
   });
 }

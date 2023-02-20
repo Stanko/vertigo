@@ -283,6 +283,7 @@ h1 {
   min-height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
+  padding-top: 40px;
 
   @include md {
     flex-direction: row;

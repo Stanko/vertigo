@@ -271,5 +271,5 @@ toggleDebugButton.addEventListener("click", () => {
     window.localStorage.setItem("VERTIGO_DEBUG", "1");
   }
 
-  window.location.replace("/");
+  window.location.replace(".");
 });

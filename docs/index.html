@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" type="text/css" href="./docs.css" />
+  <link rel="stylesheet" type="text/css" href="./styles/docs.css" />
 
   <meta charset="utf-8" />
 
@@ -10,117 +10,222 @@
   <meta property="og:title" content="Vertigo" />
   <meta property="og:site_name" content="Vertigo" />
   <meta property="og:description"
-    content="Convert and render any image on a circular dot grid or as a spiral of a variable width." />
+    content="Vertigo is a tool that transforms raster images into vectors using two distinct shaders." />
   <meta name="description"
-    content="Convert and render any image on a circular dot grid or as a spiral of a variable width." />
-  <meta property="og:image" content="./zappa.png" />
+    content="Vertigo is a tool that transforms raster images into vectors using two distinct shaders." />
+  <meta property="og:image" content="https://muffinman.io/vertigo/img/thumb.jpg" />
   <meta property="og:url" content="https://muffinman.io/vertigo/" />
   <meta name="twitter:title" content="Vertigo" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
 
   <!-- Icons -->
-  <!-- Icons -->
-  <link rel="icon" href="https://muffinman.io/favicon/gray/icon-32.ico" sizes="any" />
-  <link rel="icon" href="https://muffinman.io/favicon/gray/icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="https://muffinman.io/favicon/gray/icon-180.png" />
-  <link rel="manifest" href="https://muffinman.io/favicon/gray/manifest.webmanifest" />
+  <link rel="icon" href="https://muffinman.io/favicon/red/icon-32.ico" sizes="any" />
+  <link rel="icon" href="https://muffinman.io/favicon/red/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="https://muffinman.io/favicon/red/icon-180.png" />
+  <link rel="manifest" href="https://muffinman.io/favicon/red/manifest.webmanifest" />
 </head>
 
 <body>
-  <div class="Header">
-    <div class="Description">
-      <h1>Vertigo</h1>
+  <div class="navigation">
+    <div class="navigation-content">
 
-      <div>
+      <h1><a href="#dots">Vertigo</a></h1>
+
+      <div role="navigation" class="navigation-links">
+        <a href="#dots">Dots</a>
+        <a href="#spiral">Spiral</a>
+        <a href="#about">About</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="block block--spiral" id="spiral">
+    <div class="block-content">
+      <div class="output">
+        <div class="output-content output-content--spiral output-content--invert">
+          <div class="output-svg-wrapper output-svg-wrapper--spiral"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="buttons">
+          <input type="file" class="file-input file-input--spiral" id="spiral-file-input" />
+          <label class="button" for="spiral-file-input">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1.02356 13.5379C1.16087 14.3674 1.88156 15 2.75 15H13.25C14.2165 15 15 14.2165 15 13.25V9.91634M1.02356 13.5379C1.00807 13.4443 1 13.3481 1 13.25V2.75C1 1.7835 1.7835 1 2.75 1H13.25C14.2165 1 15 1.7835 15 2.75V9.91634M1.02356 13.5379L4.36667 10.1948C4.96169 9.67414 5.83192 9.61709 6.48975 10.0557L6.9353 10.3527C7.56933 10.7754 8.40416 10.7392 8.99925 10.2631L11.3163 8.40941C11.907 7.93691 12.7296 7.89981 13.3575 8.30485C13.427 8.34974 13.489 8.4053 13.5475 8.46384L15 9.91634M7.125 5.375C7.125 6.34152 6.34152 7.125 5.375 7.125C4.4085 7.125 3.625 6.34152 3.625 5.375C3.625 4.4085 4.4085 3.625 5.375 3.625C6.34152 3.625 7.125 4.4085 7.125 5.375Z"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Select file
+          </label>
+          <button class="button button--download button--spiral-download">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15 10.8824V13.3529C15 14.2626 14.2165 15 13.25 15H2.75C1.7835 15 1 14.2626 1 13.3529V10.8824M4.5 7.58824L8 10.8824M8 10.8824L11.5 7.58824M8 10.8824V1"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Download SVG
+          </button>
+        </div>
+        <div class="options options--spiral"></div>
+        <div class="examples">
+          <div class="examples-title">Examples:</div>
+          <div class="examples-buttons">
+            <button class="examples-button button" data-image=".example--hello" type="button" data-type="spiral">
+              <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2">
+                  <path
+                    d="M6.18518 3.33334C6.18518 2.98955 6.32175 2.65983 6.56486 2.41672C6.80796 2.17362 7.13768 2.03705 7.48148 2.03705C7.82528 2.03705 8.15499 2.17362 8.3981 2.41672C8.6412 2.65983 8.77777 2.98955 8.77777 3.33334V7.22223" />
+                  <path
+                    d="M3.59265 4.37037V2.2963C3.59265 1.9525 3.72923 1.62278 3.97233 1.37968C4.21543 1.13657 4.54515 1 4.88895 1C5.23275 1 5.56246 1.13657 5.80557 1.37968C6.04867 1.62278 6.18524 1.9525 6.18524 2.2963V6.7037" />
+                  <path
+                    d="M6.18519 11.1111C6.18519 10.4235 6.45833 9.76407 6.94454 9.27786C7.43074 8.79166 8.09018 8.51851 8.77778 8.51851V7.22221C8.77778 6.87842 8.91435 6.5487 9.15745 6.30559C9.40056 6.06249 9.73027 5.92592 10.0741 5.92592C10.4179 5.92592 10.7476 6.06249 10.9907 6.30559C11.2338 6.5487 11.3704 6.87842 11.3704 7.22221V9.81481C11.3704 11.19 10.8241 12.5089 9.85166 13.4813C8.87925 14.4537 7.56038 15 6.18519 15C4.80999 15 3.49112 14.4537 2.51871 13.4813C1.54629 12.5089 1 11.19 1 9.81481V4.37036C1 4.02656 1.13657 3.69685 1.37968 3.45374C1.62278 3.21064 1.9525 3.07407 2.2963 3.07407C2.6401 3.07407 2.96981 3.21064 3.21292 3.45374C3.45602 3.69685 3.59259 4.02656 3.59259 4.37036V7.22221" />
+                </g>
+              </svg>
+              Hello
+            </button>
+            <button class="examples-button button" data-image=".example--hk" type="button" data-type="spiral">
+              <svg width="15" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 16">
+                <path
+                  d="M2.94 11.22c.384 3 2.568 3.78 4.65 3.78 2.081 0 4.266-.78 4.65-3.78.05-.397.06-1.664.41-2.643.26-.725 1.188-1.643 1.383-2.506.315-1.396.206-2.834-1.15-4.3-1.356-1.465-1.493-.41-1.493-.314 0 .75-.082.794-.315.835-.164.029-.29.269.11.794.219.288.564.631.74 1.15.228.678.205 1.441-.083 1.835-.288.395-.48.466-1.11.395-1.104-.175-1.76-.24-3.142-.258-1.383.017-2.038.083-3.143.258-.63.071-.821 0-1.11-.395-.287-.394-.31-1.157-.081-1.835.175-.519.52-.862.74-1.15.4-.525.273-.765.109-.794-.233-.041-.315-.086-.315-.835 0-.096-.137-1.15-1.493.315-1.356 1.465-1.465 2.903-1.15 4.3.194.862 1.123 1.78 1.383 2.505.35.979.36 2.246.41 2.643Z"
+                  stroke="currentColor" stroke-width="1.2" />
+                <path
+                  d="M6.576 10.604c.425.934.52 2.201-.52 2.5-.733.21-1.645-.302-1.902-1.294-.178-.684-.305-1.592.405-2.189.457-.383 1.484-.186 2.017.983Zm2.041 0c-.426.934-.52 2.201.52 2.5.732.21 1.644-.302 1.902-1.294.177-.684.304-1.592-.406-2.189-.456-.383-1.483-.186-2.016.983Z"
+                  fill="currentColor" />
+              </svg>
+              Hollow Knight
+            </button>
+            <button class="examples-button button" data-image=".example--zappa" type="button" data-type="spiral">
+              <svg width="16" height="11" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 11">
+                <path
+                  d="M15.463 7.742c-.2 0-.448-.092-.543-.35-1.146-3.116-1.956-3.265-4.347-3.265H5.428c-2.534 0-3.186.281-4.347 3.259a.59.59 0 0 1-.56.356C.329 7.742 0 7.644 0 7.274 0 5.087.702 0 7.21 0h1.58C15.298 0 16 5.087 16 7.274a.422.422 0 0 1-.153.341.612.612 0 0 1-.384.127Z"
+                  fill="currentColor" />
+                <path
+                  d="M8 10.839c-1.441 0-2.323-.45-2.323-.695v-2.66a.26.26 0 0 1 .218-.255c.263.102 1.375.513 2.105.513s1.842-.411 2.105-.513a.26.26 0 0 1 .218.255v2.66c0 .245-.882.695-2.323.695Z"
+                  fill="currentColor" />
+              </svg>
+              Zappa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="debug debug--spiral"></div>
+
+
+  <div class="block block--about" id="about">
+    <div class="block-content">
+      <div class="about">
+        <h2>About</h2>
+
         <p>
-          This is a small project, which converts raster images to a vector, using two different "shaders". Available
-          shaders are
-          <a class="Link" href="#dots">circular dot grid</a> and
-          <a class="Link" href="#spiral">spiral of a variable width</a>.
+          Vertigo is a tool that transforms raster images into vectors using two distinct <i>shaders</i> -
+          <a class="link" href="#dots">circular dot grid</a> and
+          <a class="link" href="#spiral">variable-width spiral</a>.
         </p>
 
         <p>
-          Vertigo is open source, and you can find the code on
-          <a class="Link" href="https://github.com/stanko/vertigo">GitHub</a>. If you like it, I write about things
-          like this on
-          <a class="Link" href="https://muffinman.io">my blog</a>
+          It is open-source, and you can access the code on <a class="link"
+            href="https://github.com/stanko/vertigo">GitHub</a>.
+          If you find it useful, I also write about similar topics on <a class="link" href="https://muffinman.io">my
+            blog</a>.
+        </p>
+
+        <p>
+          Feel free to use any images produced by Vertigo as you please, but it would be greatly appreciated if you
+          could include a link back to the website.
         </p>
       </div>
     </div>
   </div>
 
-  <div class="Description Description--narrow">
-    <h2 id="dots">Cirular dot grid</h2>
-    <p>
-      Original Vertigo, converts any raster image to a SVG, and renders it as a grayscale image on a circular dot
-      grid.
-    </p>
+  <div class="block block--dots" id="dots">
+    <div class="block-content">
+      <div class="output">
+        <div class="output-content output-content--dots output-content--invert">
+          <div class="output-svg-wrapper output-svg-wrapper--dots"></div>
+        </div>
+      </div>
 
-    <p></p>
-  </div>
-
-  <div class="Content">
-    <div class="SvgWrapper">
-      <div class="SvgWrapper-inner SvgWrapper-inner--dots SvgWrapper-inner--invert">
-        <div class="SvgWrapper-svg SvgWrapper-svg--dots"></div>
+      <div class="controls">
+        <div class="buttons">
+          <input type="file" class="file-input file-input--dots" id="dots-file-input" />
+          <label class="button" for="dots-file-input">
+            <!-- Icons taken from https://dribbble.com/shots/17302420-Freebie-SWM-Icon-Pack-version-2-0 -->
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1.02356 13.5379C1.16087 14.3674 1.88156 15 2.75 15H13.25C14.2165 15 15 14.2165 15 13.25V9.91634M1.02356 13.5379C1.00807 13.4443 1 13.3481 1 13.25V2.75C1 1.7835 1.7835 1 2.75 1H13.25C14.2165 1 15 1.7835 15 2.75V9.91634M1.02356 13.5379L4.36667 10.1948C4.96169 9.67414 5.83192 9.61709 6.48975 10.0557L6.9353 10.3527C7.56933 10.7754 8.40416 10.7392 8.99925 10.2631L11.3163 8.40941C11.907 7.93691 12.7296 7.89981 13.3575 8.30485C13.427 8.34974 13.489 8.4053 13.5475 8.46384L15 9.91634M7.125 5.375C7.125 6.34152 6.34152 7.125 5.375 7.125C4.4085 7.125 3.625 6.34152 3.625 5.375C3.625 4.4085 4.4085 3.625 5.375 3.625C6.34152 3.625 7.125 4.4085 7.125 5.375Z"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Select file
+          </label>
+          <button class="button button--dots-random">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1 1V5.66667M1 5.66667H5.66667M1 5.66667C2.81023 4.04221 4.48668 2.20304 7.02412 1.84606C8.5271 1.63461 10.0581 1.91732 11.3864 2.65156C12.7147 3.3858 13.7683 4.53182 14.3886 5.91693M15 15V10.3333M15 10.3333H10.3333M15 10.3333C13.1897 11.9578 11.5133 13.7969 8.9758 14.1539C7.4729 14.3654 5.94191 14.0827 4.61361 13.3485C3.28531 12.6142 2.23163 11.4682 1.61134 10.083"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Random Image
+          </button>
+          <button class="button button--download button--dots-download">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15 10.8824V13.3529C15 14.2626 14.2165 15 13.25 15H2.75C1.7835 15 1 14.2626 1 13.3529V10.8824M4.5 7.58824L8 10.8824M8 10.8824L11.5 7.58824M8 10.8824V1"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Download SVG
+          </button>
+        </div>
+        <div class="options options--dots"></div>
+        <div class="examples">
+          <div class="examples-title">Examples:</div>
+          <div class="examples-buttons">
+            <button class="examples-button button" data-image=".example--hello" type="button" data-type="dots">
+              <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2">
+                  <path
+                    d="M6.18518 3.33334C6.18518 2.98955 6.32175 2.65983 6.56486 2.41672C6.80796 2.17362 7.13768 2.03705 7.48148 2.03705C7.82528 2.03705 8.15499 2.17362 8.3981 2.41672C8.6412 2.65983 8.77777 2.98955 8.77777 3.33334V7.22223" />
+                  <path
+                    d="M3.59265 4.37037V2.2963C3.59265 1.9525 3.72923 1.62278 3.97233 1.37968C4.21543 1.13657 4.54515 1 4.88895 1C5.23275 1 5.56246 1.13657 5.80557 1.37968C6.04867 1.62278 6.18524 1.9525 6.18524 2.2963V6.7037" />
+                  <path
+                    d="M6.18519 11.1111C6.18519 10.4235 6.45833 9.76407 6.94454 9.27786C7.43074 8.79166 8.09018 8.51851 8.77778 8.51851V7.22221C8.77778 6.87842 8.91435 6.5487 9.15745 6.30559C9.40056 6.06249 9.73027 5.92592 10.0741 5.92592C10.4179 5.92592 10.7476 6.06249 10.9907 6.30559C11.2338 6.5487 11.3704 6.87842 11.3704 7.22221V9.81481C11.3704 11.19 10.8241 12.5089 9.85166 13.4813C8.87925 14.4537 7.56038 15 6.18519 15C4.80999 15 3.49112 14.4537 2.51871 13.4813C1.54629 12.5089 1 11.19 1 9.81481V4.37036C1 4.02656 1.13657 3.69685 1.37968 3.45374C1.62278 3.21064 1.9525 3.07407 2.2963 3.07407C2.6401 3.07407 2.96981 3.21064 3.21292 3.45374C3.45602 3.69685 3.59259 4.02656 3.59259 4.37036V7.22221" />
+                </g>
+              </svg>
+              Hello
+            </button>
+            <button class="examples-button button" data-image=".example--hk" type="button" data-type="dots">
+              <svg width="15" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 16">
+                <path
+                  d="M2.94 11.22c.384 3 2.568 3.78 4.65 3.78 2.081 0 4.266-.78 4.65-3.78.05-.397.06-1.664.41-2.643.26-.725 1.188-1.643 1.383-2.506.315-1.396.206-2.834-1.15-4.3-1.356-1.465-1.493-.41-1.493-.314 0 .75-.082.794-.315.835-.164.029-.29.269.11.794.219.288.564.631.74 1.15.228.678.205 1.441-.083 1.835-.288.395-.48.466-1.11.395-1.104-.175-1.76-.24-3.142-.258-1.383.017-2.038.083-3.143.258-.63.071-.821 0-1.11-.395-.287-.394-.31-1.157-.081-1.835.175-.519.52-.862.74-1.15.4-.525.273-.765.109-.794-.233-.041-.315-.086-.315-.835 0-.096-.137-1.15-1.493.315-1.356 1.465-1.465 2.903-1.15 4.3.194.862 1.123 1.78 1.383 2.505.35.979.36 2.246.41 2.643Z"
+                  stroke="currentColor" stroke-width="1.2" />
+                <path
+                  d="M6.576 10.604c.425.934.52 2.201-.52 2.5-.733.21-1.645-.302-1.902-1.294-.178-.684-.305-1.592.405-2.189.457-.383 1.484-.186 2.017.983Zm2.041 0c-.426.934-.52 2.201.52 2.5.732.21 1.644-.302 1.902-1.294.177-.684.304-1.592-.406-2.189-.456-.383-1.483-.186-2.016.983Z"
+                  fill="currentColor" />
+              </svg>
+              Hollow Knight
+            </button>
+            <button class="examples-button button" data-image=".example--zappa" type="button" data-type="dots">
+              <svg width="16" height="11" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 11">
+                <path
+                  d="M15.463 7.742c-.2 0-.448-.092-.543-.35-1.146-3.116-1.956-3.265-4.347-3.265H5.428c-2.534 0-3.186.281-4.347 3.259a.59.59 0 0 1-.56.356C.329 7.742 0 7.644 0 7.274 0 5.087.702 0 7.21 0h1.58C15.298 0 16 5.087 16 7.274a.422.422 0 0 1-.153.341.612.612 0 0 1-.384.127Z"
+                  fill="currentColor" />
+                <path
+                  d="M8 10.839c-1.441 0-2.323-.45-2.323-.695v-2.66a.26.26 0 0 1 .218-.255c.263.102 1.375.513 2.105.513s1.842-.411 2.105-.513a.26.26 0 0 1 .218.255v2.66c0 .245-.882.695-2.323.695Z"
+                  fill="currentColor" />
+              </svg>
+              Zappa
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="Controls">
-      <div>
-        <input type="file" class="FileInput FileInput--dots" id="dots-file-input" />
-        <label class="Button Button--noTopMargin" for="dots-file-input"> Select file </label>
-        <button class="Button Button--download Button--dotsDownload">Download SVG</button>
-        <button class="Button Button--dotsRandom">Random Image</button>
-      </div>
-      <div>
-        <label>Test images:</label>
-        <button class="TestImageButton" data-image=".TestImage--hello" type="button" data-type="dots">Hello</button>
-        <button class="TestImageButton" data-image=".TestImage--hk" type="button" data-type="dots">
-          Hollow Knight
-        </button>
-        <button class="TestImageButton" data-image=".TestImage--zappa" type="button" data-type="dots">Zappa</button>
-      </div>
-      <div class="Options Options--dots"></div>
-    </div>
   </div>
-  <div class="Debug Debug--dots"></div>
+  <div class="debug debug--dots"></div>
 
-  <!-- SPIRAL -->
-  <div class="Description Description--narrow">
-    <h2 id="spiral">Spiral</h2>
-    <p>Converts any raster image to a SVG, and renders it as a spiral line of a variable width.</p>
-
-    <p></p>
-  </div>
-
-  <div class="Content">
-    <div class="SvgWrapper">
-      <div class="SvgWrapper-inner SvgWrapper-inner--spiral SvgWrapper-inner--invert">
-        <div class="SvgWrapper-svg SvgWrapper-svg--spiral"></div>
-      </div>
-    </div>
-
-    <div class="Controls">
-      <div>
-        <input type="file" class="FileInput FileInput--spiral" id="spiral-file-input" />
-        <label class="Button Button--noTopMargin" for="spiral-file-input"> Select file </label>
-        <button class="Button Button--download Button--spiralDownload">Download SVG</button>
-      </div>
-      <div>
-        <label>Test images:</label>
-        <button class="TestImageButton" data-image=".TestImage--hello" type="button">Hello</button>
-        <button class="TestImageButton" data-image=".TestImage--hk" type="button">Hollow Knight</button>
-        <button class="TestImageButton" data-image=".TestImage--zappa" type="button">Zappa</button>
-      </div>
-      <div class="Options Options--spiral"></div>
-    </div>
-  </div>
-  <div class="Debug Debug--spiral"></div>
-
-  <img src="./test-images/hello.png" class="TestImage TestImage--hello" />
-  <img src="./test-images/hk.jpg" class="TestImage TestImage--hk" />
-  <img src="./test-images/zappa.jpg" class="TestImage TestImage--zappa" />
+  <img src="./examples/hello.png" class="example example--hello" />
+  <img src="./examples/hk.jpg" class="example example--hk" />
+  <img src="./examples/zappa.jpg" class="example example--zappa" />
 
 
   <script src="/vertigo/build/docs.js"></script>

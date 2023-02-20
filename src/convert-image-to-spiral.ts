@@ -76,8 +76,8 @@ export default function convertImageToSpiral(
         ctx.strokeRect(rect.x, rect.y, rectangleSize, rectangleSize);
       });
 
-      document.querySelector(".Debug--spiral").innerHTML = "";
-      document.querySelector(".Debug--spiral").appendChild(canvas);
+      document.querySelector(".debug--spiral").innerHTML = "";
+      document.querySelector(".debug--spiral").appendChild(canvas);
     }
   });
 }

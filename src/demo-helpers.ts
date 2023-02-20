@@ -1,12 +1,12 @@
 import { saveAs } from "file-saver";
 
 export function createOption({ callback, label, max, min, name, step = 1, value }) {
-  const spanRange = document.createElement("span");
-  spanRange.innerHTML = `(${min} - ${max})`;
+  const focus = document.createElement("span");
+  focus.className = "option-focus";
 
   const labelName = document.createElement("label");
+  labelName.className = "option-name";
   labelName.innerHTML = `${label}: `;
-  labelName.appendChild(spanRange);
 
   const spanValue = document.createElement("span");
   spanValue.innerHTML = ` ${value}`;
@@ -25,25 +25,45 @@ export function createOption({ callback, label, max, min, name, step = 1, value 
   });
 
   const divOption = document.createElement("div");
+  divOption.className = "option";
   divOption.appendChild(labelName);
-  divOption.appendChild(input);
   divOption.appendChild(spanValue);
+  divOption.appendChild(input);
+  divOption.appendChild(focus);
 
   return divOption;
 }
 
 export function createCheckboxOption({ callback, label, name, value }) {
   const labelName = document.createElement("label");
+  labelName.className = "checkbox";
   labelName.innerHTML = ` ${label}`;
 
   const input = document.createElement("input");
   input.setAttribute("type", "checkbox");
   input.setAttribute("checked", value);
-  input.setAttribute("class", `OptionsInput OptionsInput--${name}`);
+  input.className = `OptionsInput OptionsInput--${name}`;
   input.addEventListener("change", (e) => {
     callback(name, (e.target as HTMLInputElement).checked);
   });
 
+  const icon = document.createElement("span");
+  icon.className = "checkbox-icon";
+  icon.innerHTML = `<svg viewBox="0 0 14 14">
+<path
+fill="none"
+stroke="white"
+stroke-linejoin="round"
+stroke-linecap="round"
+stroke-width="2.5" d="M 3 7.5 l 3 3 l 5 -7"
+/>
+</svg>`;
+
+  const focus = document.createElement("span");
+  focus.className = "checkbox-focus";
+
+  labelName.prepend(focus);
+  labelName.prepend(icon);
   labelName.prepend(input);
 
   const divOption = document.createElement("div");

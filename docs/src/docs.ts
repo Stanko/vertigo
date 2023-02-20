@@ -4,17 +4,17 @@ import { ISpiralOptions, IDotsOptions } from "../../src/constants";
 import { createOption, createCheckboxOption, downloadSVG } from "../../src/demo-helpers";
 import generateRandomImage from "../../src/generate-random-image";
 
-const helloImage: HTMLElement = document.querySelector(".TestImage--hello");
+const helloImage: HTMLElement = document.querySelector(".example--hello");
 
 // ------- DOTS
 
-const dotsSvgWrapperInner: HTMLElement = document.querySelector(".SvgWrapper-inner--dots");
-const dotsSvgWrapper: HTMLElement = document.querySelector(".SvgWrapper-svg--dots");
-const dotsFileInput: HTMLInputElement = document.querySelector(".FileInput--dots");
-const dotsOptionsDiv: HTMLElement = document.querySelector(".Options--dots");
+const dotsOutputContent: HTMLElement = document.querySelector(".output-content--dots");
+const dotsSvgWrapper: HTMLElement = document.querySelector(".output-svg-wrapper--dots");
+const dotsFileInput: HTMLInputElement = document.querySelector(".file-input--dots");
+const dotsOptionsDiv: HTMLElement = document.querySelector(".options--dots");
 
-const dotsDownloadButton: HTMLAnchorElement = document.querySelector(".Button--dotsDownload");
-const dotsRandomButton: HTMLButtonElement = document.querySelector(".Button--dotsRandom");
+const dotsDownloadButton: HTMLAnchorElement = document.querySelector(".button--dots-download");
+const dotsRandomButton: HTMLButtonElement = document.querySelector(".button--dots-random");
 
 const dotsOptions: IDotsOptions = {
   minimumDotRadius: 1,
@@ -31,16 +31,14 @@ function dotOptionsChangeHandler(name, value) {
 
   if (name === "invert") {
     dotsOptions[name] = Boolean(value);
-
-    if (dotsOptions[name]) {
-      dotsSvgWrapperInner.classList.add("SvgWrapper-inner--invert");
-    } else {
-      dotsSvgWrapperInner.classList.remove("SvgWrapper-inner--invert");
-    }
   }
 
   // Redraw vertigo with new options
-  vertigo.setOptions(dotsOptions);
+  vertigo.setOptions(dotsOptions, () => {
+    if (name === "invert") {
+      dotsOutputContent.classList.toggle("output-content--invert");
+    }
+  });
 }
 
 const DOTS_OPTIONS_INPUTS = [
@@ -54,7 +52,7 @@ const DOTS_OPTIONS_INPUTS = [
   },
   {
     callback: dotOptionsChangeHandler,
-    label: "Minimum dot radius",
+    label: "Min dot radius",
     max: 5,
     min: 0,
     name: "minimumDotRadius",
@@ -62,7 +60,7 @@ const DOTS_OPTIONS_INPUTS = [
   },
   {
     callback: dotOptionsChangeHandler,
-    label: "Maximum dot radius",
+    label: "Max dot radius",
     max: 20,
     min: 1,
     name: "maximumDotRadius",
@@ -70,7 +68,7 @@ const DOTS_OPTIONS_INPUTS = [
   },
   {
     callback: dotOptionsChangeHandler,
-    label: "Distance between dots",
+    label: "Distance",
     max: 20,
     min: 0,
     name: "distanceBetweenDots",
@@ -78,7 +76,7 @@ const DOTS_OPTIONS_INPUTS = [
   },
   {
     callback: dotOptionsChangeHandler,
-    label: "Plotting step",
+    label: "Pen plotting step",
     max: 5,
     min: 0,
     name: "plottingStep",
@@ -127,11 +125,11 @@ vertigo.convertImage(helloImage.getAttribute("src"));
 
 // -------------- SPIRAL
 
-const spiralOptionsDiv: HTMLElement = document.querySelector(".Options--spiral");
-const spiralDownloadButton: HTMLAnchorElement = document.querySelector(".Button--spiralDownload");
-const spiralFileInput: HTMLInputElement = document.querySelector(".FileInput--spiral");
-const spiralSvgWrapper: HTMLElement = document.querySelector(".SvgWrapper-svg--spiral");
-const spiralSvgWrapperInner: HTMLElement = document.querySelector(".SvgWrapper-inner--spiral");
+const spiralOptionsDiv: HTMLElement = document.querySelector(".options--spiral");
+const spiralDownloadButton: HTMLAnchorElement = document.querySelector(".button--spiral-download");
+const spiralFileInput: HTMLInputElement = document.querySelector(".file-input--spiral");
+const spiralSvgWrapper: HTMLElement = document.querySelector(".output-svg-wrapper--spiral");
+const spiralOutputContent: HTMLElement = document.querySelector(".output-content--spiral");
 
 const spiralOptions: ISpiralOptions = {
   minimumLineWidth: 1,
@@ -148,22 +146,20 @@ function spiralOptionsChangeHandler(name, value) {
 
   if (name === "invert") {
     spiralOptions[name] = Boolean(value);
-
-    if (spiralOptions[name]) {
-      spiralSvgWrapperInner.classList.add("SvgWrapper-inner--invert");
-    } else {
-      spiralSvgWrapperInner.classList.remove("SvgWrapper-inner--invert");
-    }
   }
 
   // Redraw vertigo with new options
-  spiral.setOptions(spiralOptions);
+  spiral.setOptions(spiralOptions, () => {
+    if (name === "invert") {
+      spiralOutputContent.classList.toggle("output-content--invert");
+    }
+  });
 }
 
 const SPIRAL_OPTIONS_INPUTS = [
   {
     callback: spiralOptionsChangeHandler,
-    label: "Minimum line width",
+    label: "Min line width",
     min: 0,
     max: 5,
     name: "minimumLineWidth",
@@ -172,7 +168,7 @@ const SPIRAL_OPTIONS_INPUTS = [
   },
   {
     callback: spiralOptionsChangeHandler,
-    label: "Maximum line width",
+    label: "Max line width",
     min: 1,
     max: 20,
     name: "maximumLineWidth",
@@ -181,7 +177,7 @@ const SPIRAL_OPTIONS_INPUTS = [
   },
   {
     callback: spiralOptionsChangeHandler,
-    label: "Distance between lines",
+    label: "Distance",
     min: 0,
     max: 10,
     name: "distanceBetweenLines",
@@ -199,7 +195,7 @@ const SPIRAL_OPTIONS_INPUTS = [
   },
   {
     callback: spiralOptionsChangeHandler,
-    label: "Plotting step",
+    label: "Pen plotting step",
     max: 10,
     min: 0,
     name: "plottingStep",
@@ -243,12 +239,12 @@ spiral.convertImage(helloImage.getAttribute("src"));
 
 // --------- TEST IMAGES
 
-const testImagesElements: NodeListOf<HTMLImageElement> = document.querySelectorAll(".TestImageButton");
+const exampleButtons: NodeListOf<HTMLImageElement> = document.querySelectorAll(".examples-button");
 
 // Connect buttons to draw test images
 // IE can't forEach through NodeList
 // so we need to call Array.prototype.slice
-Array.prototype.slice.call(testImagesElements).forEach((button) => {
+Array.prototype.slice.call(exampleButtons).forEach((button) => {
   button.addEventListener("click", (e) => {
     const image = document.querySelector(e.target.getAttribute("data-image"));
     const imageURL = image.getAttribute("src");

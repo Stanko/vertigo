@@ -36,14 +36,16 @@ export default class Vertigo {
     const size = this.options.resolution * 2 * this.radiusGrowStep;
     const svgSize = size + this.options.maximumDotRadius * 2;
 
-    this.svg = createSvg(svgSize, true, "Vertigo");
+    this.svg = createSvg(svgSize, true, "vertigo vertigo--dots");
 
     this.generateDots();
   }
 
-  private static createDot(x: string, y: string, dotRadius: number, className = "Dots-dot"): IDot {
+  private static createDot(x: string, y: string, dotRadius: number, className = ""): IDot {
     const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    dot.setAttribute("class", className);
+    if (className) {
+      dot.setAttribute("class", className);
+    }
     dot.setAttribute("cx", x);
     dot.setAttribute("cy", y);
     dot.setAttribute("r", dotRadius.toString());
@@ -92,14 +94,15 @@ export default class Vertigo {
     const y = dot.element.getAttribute("cy") as string;
     const xNumber = parseFloat(x);
 
-    const className = "Dots-plottingHelper";
+    const className = "plotting-helper";
 
     // Skip center line if dotScale is smaller than threshold
     if (dotScale > 1) {
       const centerLine = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      const d = `M ${xNumber - 0.1} ${y} L ${xNumber + 0.1} ${y}`;
+      const d = `M ${xNumber - 0.1} ${y} l 0.01 0`;
       centerLine.setAttribute("d", d);
       centerLine.setAttribute("class", className);
+      centerLine.setAttribute("stroke-linecap", "round");
       this.svg.appendChild(centerLine);
     }
 
@@ -115,7 +118,7 @@ export default class Vertigo {
     this.imageURL = null;
 
     // Remove all plotting dot helpers
-    this.svg.querySelectorAll(".Dots-plottingHelper").forEach((plotDot) => {
+    this.svg.querySelectorAll(".plotting-helper").forEach((plotDot) => {
       this.svg.removeChild(plotDot);
     });
 
@@ -133,7 +136,10 @@ export default class Vertigo {
           }
 
           if (this.options.plottingStep > 0) {
+            this.svg.classList.add("vertigo--plotting");
             this.generatePlottingHelpers(dotScale, dot);
+          } else {
+            this.svg.classList.remove("vertigo--plotting");
           }
         }
       });

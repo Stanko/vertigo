@@ -1,0 +1,629 @@
+@mixin sm-only {
+  @media (max-width: 649px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: 650px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: 900px) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin focus-element {
+  border-radius: 2px;
+  position: absolute;
+  inset: -4px;
+  display: block;
+  pointer-events: none;
+}
+
+:root {
+  --border-color: rgba(0, 0, 0, 0.1);
+  --bg: #fff;
+  --fg: #191919;
+  --outline-color: rgba(0, 123, 229, 0.2);
+
+  --gradient-start: #da5a4b;
+  --gradient-end: #6f298d;
+
+  --bg-size: 400px;
+  --bg-offset: 0px;
+
+  --input-range-color: #ccc;
+  --input-range-hover-color: #888;
+
+  --input-checkbox-color: #777;
+
+  --button-bg: #f8f8f8;
+  --button-active-bg: #f1f1f1;
+
+  --input-thumb-size: 14px;
+  --input-checkbox-size: 16px;
+}
+
+.block--dots {
+  --main: rgb(228, 40, 81);
+  --main-dark: hsl(6, 78%, 35%);
+  --outline-color: rgba(231, 76, 60, 0.2);
+
+  --bg-size: 450px;
+  --bg-offset: 100px;
+}
+
+.block--dots {
+  --main: #8e4269; // rgb(231, 76, 60);
+  --main-dark: hsl(6, 78%, 35%);
+  --outline-color: rgba(231, 76, 60, 0.2);
+  --gradient-start: #da5a4b;
+  --gradient-end: #6f298d;
+  --bg-size: 400px;
+  --bg-offset: 0px;
+}
+
+.block--spiral {
+  --main: #58aba1;
+  --main-dark: hsl(173, 33%, 35%);
+  --outline-color: rgba(46, 204, 113, 0.2);
+  --gradient-start: #2ecc71;
+  --gradient-end: #3498db;
+  --bg-size: 450px;
+  --bg-offset: 100px;
+}
+
+.block--about {
+  --main: #007be5;
+  --main-dark: #002867;
+  --gradient-start: #2a8ee5;
+  --gradient-end: #2c1a9f;
+  --bg-size: 425px;
+  --bg-offset: 350px;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Inter, Arial,
+    "Noto Sans", sans-serif;
+  font-size: 14px;
+  color: var(--fg);
+  background: var(--bg);
+  text-rendering: auto;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 0.5em;
+}
+
+p {
+  line-height: 1.4;
+  margin-bottom: 1em;
+}
+
+/* --- Navigation --- */
+
+.navigation {
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  -webkit-backdrop-filter: blur(4px);
+  -ms-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.navigation-links {
+  a {
+    color: white;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 15px;
+    text-decoration: none;
+    opacity: 0.9;
+    font-weight: 500;
+
+    &:last-child {
+      margin-right: -10px;
+    }
+
+    @include md {
+      font-size: 16px;
+    }
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: underline;
+    opacity: 1;
+  }
+
+  a:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.navigation-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 40px;
+  padding: 0 20px;
+
+  @include md {
+    height: 50px;
+    padding: 0 20px;
+  }
+
+  @include lg {
+    padding: 0 40px;
+  }
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+/* --- Blocks --- */
+
+.block {
+  display: none;
+}
+
+.block--dots {
+  display: block;
+}
+
+.block:target {
+  display: block;
+
+  & ~ .block {
+    display: none !important;
+  }
+}
+
+/* --- About --- */
+
+.block--about .block-content {
+  min-height: 100vh;
+  min-height: 100svh;
+  align-items: center;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.about {
+  background-color: var(--bg);
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+  flex: 100% 0 0;
+  border-radius: 4px;
+  max-width: 600px;
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  font-size: 18px;
+
+  @include md {
+    padding: 20px;
+  }
+
+  @include lg {
+    padding: 40px;
+  }
+
+  a {
+    color: var(--main);
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    color: var(--main-dark);
+  }
+}
+
+/* --- Layout --- */
+
+.block {
+  background-image: url("../img/isolines.svg"),
+    radial-gradient(circle at 30% 30%, var(--gradient-start), var(--gradient-end));
+
+  background-size: var(--bg-size) auto, 100% 100%;
+  background-position: var(--bg-offset), 0 0;
+  background-attachment: fixed, fixed;
+}
+
+.block-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include md {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 20px 40px;
+  }
+
+  @include lg {
+    padding: 90px 40px 40px;
+  }
+}
+
+.output {
+  flex: 1 1 0;
+  position: sticky;
+  top: 40px;
+
+  @include sm-only {
+    margin-bottom: auto;
+  }
+}
+
+.output-content {
+  margin: 0 auto;
+
+  @include sm-only {
+    padding: 20px;
+  }
+}
+
+.output-svg-wrapper {
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.25);
+  background-color: #f7f7f8;
+  border-radius: 50%;
+  padding: 15px;
+  aspect-ratio: 1;
+
+  path,
+  circle {
+    fill: #191919;
+  }
+}
+
+.output-content--invert .output-svg-wrapper {
+  background-color: #191919;
+
+  path,
+  circle {
+    fill: #f7f7f8;
+  }
+}
+
+.vertigo--plotting {
+  path,
+  circle {
+    fill: none !important;
+    stroke: #191919;
+  }
+}
+
+.output-content--invert .vertigo--plotting {
+  path,
+  circle {
+    stroke: #f7f7f8;
+  }
+}
+
+.controls {
+  background-color: var(--bg);
+  z-index: 1;
+  position: relative;
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+
+  @include sm-only {
+    border-radius: 10px 10px 0 0;
+  }
+
+  @include md {
+    margin-left: 20px;
+    flex: 33% 0 0;
+    border-radius: 4px;
+    max-width: 250px;
+    border: 1px solid var(--border-color);
+  }
+
+  @include lg {
+    max-width: 270px;
+    margin-left: 40px;
+  }
+
+  @include xl {
+    margin-left: 80px;
+  }
+}
+
+.options {
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.buttons {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Examples --- */
+
+.example {
+  display: none;
+}
+
+.examples {
+}
+
+.examples-title {
+  font-weight: bold;
+  padding: 20px 20px 0;
+}
+
+.examples-buttons {
+  padding: 7px 10px 12px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Buttons --- */
+
+.button {
+  align-self: flex-start;
+  border-radius: 2px;
+  border: none;
+  color: var(--fg);
+  background-color: var(--bg);
+  font-size: 13px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  padding: 8px 10px;
+  cursor: pointer;
+  outline: none;
+
+  svg {
+    margin-right: 6px;
+    color: var(--fg);
+  }
+}
+
+.button:hover {
+  background: var(--button-bg);
+  color: var(--main);
+}
+
+.button:focus,
+.file-input:focus + .button {
+  color: var(--main);
+}
+
+.button:focus-visible,
+.file-input:focus-visible + .button {
+  outline: 2px solid var(--outline-color);
+  z-index: 1;
+}
+
+.button:active {
+  background: var(--button-active-bg);
+  color: var(--main-dark);
+}
+
+/* --- Options --- */
+
+.option {
+  line-height: 1;
+  position: relative;
+
+  @include lg {
+    margin-bottom: 4px;
+  }
+}
+
+.option-name {
+  font-weight: bold;
+}
+
+.option-focus {
+  @include focus-element;
+  bottom: 6px;
+}
+
+/* --- File input --- */
+
+.file-input {
+  -webkit-appearance: none;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+}
+
+/* --- Range input --- */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  background: transparent;
+  padding: 0;
+  height: 32px;
+  cursor: pointer;
+  color: var(--input-range-color);
+  outline: none;
+  display: block;
+  width: 100%;
+  border-radius: 2px;
+}
+
+input[type="range"]:hover {
+  color: var(--input-range-hover-color);
+}
+
+input[type="range"]:focus {
+  color: var(--main);
+}
+
+// I don't like it
+// input[type="range"]:active {
+//   color: var(--main-dark);
+// }
+
+input[type="range"]:focus-visible + .option-focus {
+  outline: 2px solid var(--outline-color);
+}
+
+/* Webkit */
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: var(--input-thumb-size);
+  width: var(--input-thumb-size);
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid currentColor;
+  margin-top: -6px;
+  box-shadow: none;
+}
+
+/* Firefox */
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: var(--input-thumb-size);
+  width: var(--input-thumb-size);
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid currentColor;
+}
+
+/* --- Checkbox --- */
+
+.checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  padding: 0;
+  height: 1px;
+  width: 1px;
+  outline: none;
+  display: block;
+  cursor: pointer;
+  position: absolute;
+}
+
+input[type="checkbox"]:hover + .checkbox-icon {
+  color: var(--input-checkbox-hover-color);
+}
+
+input[type="checkbox"]:not(:checked):hover + .checkbox-icon {
+  svg {
+    opacity: 0.2;
+  }
+
+  path {
+    stroke: currentColor;
+  }
+}
+
+input[type="checkbox"]:focus + .checkbox-icon {
+  color: var(--main);
+}
+
+input[type="checkbox"]:active + .checkbox-icon {
+  color: var(--main-dark);
+}
+
+.checkbox-focus {
+  @include focus-element;
+}
+
+input[type="checkbox"]:focus-visible + .checkbox-icon + .checkbox-focus {
+  outline: 2px solid var(--outline-color);
+}
+
+.checkbox-icon {
+  display: block;
+  color: var(--input-checkbox-color);
+  border: 1px solid currentColor;
+  width: var(--input-checkbox-size);
+  height: var(--input-checkbox-size);
+  border-radius: 2px;
+  pointer-events: none;
+  margin-right: 6px;
+}
+
+.checkbox-icon svg {
+  display: block;
+  opacity: 0;
+}
+
+input[type="checkbox"]:checked + .checkbox-icon {
+  background-color: currentColor;
+
+  svg {
+    opacity: 1;
+  }
+}

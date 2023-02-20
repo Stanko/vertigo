@@ -21,7 +21,7 @@ export default class VertigoSpiral {
       ...options,
     };
 
-    this.svg = createSvg(SVG_SIZE, false, "Spiral");
+    this.svg = createSvg(SVG_SIZE, false, "vertigo vertigo--spiral");
 
     this.svgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
     this.svgPath.setAttribute("class", "Spiral-path");
@@ -149,7 +149,7 @@ export default class VertigoSpiral {
     centralLine.pop();
 
     const centralLinePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    centralLinePath.setAttribute("class", "Spiral-plottingHelper");
+    centralLinePath.setAttribute("class", "plotting-helper");
     centralLinePath.setAttribute("d", smoothLine(centralLine, false));
 
     this.svg.appendChild(centralLinePath);
@@ -169,7 +169,7 @@ export default class VertigoSpiral {
       const d = this.generatePath(plottingImageCopy);
 
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("class", "Spiral-plottingHelper");
+      path.setAttribute("class", "plotting-helper");
       path.setAttribute("d", d);
 
       this.svg.appendChild(path);
@@ -180,12 +180,15 @@ export default class VertigoSpiral {
     this.svgPath.setAttribute("d", this.generatePath(image));
 
     // Remove all plotting lines helpers
-    this.svg.querySelectorAll(".Spiral-plottingHelper").forEach((plotDot) => {
+    this.svg.querySelectorAll(".plotting-helper").forEach((plotDot) => {
       this.svg.removeChild(plotDot);
     });
 
     if (this.options.plottingStep > 0) {
+      this.svg.classList.add("vertigo--plotting");
       this.generatePlottingHelpers(image);
+    } else {
+      this.svg.classList.remove("vertigo--plotting");
     }
   }
 

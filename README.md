@@ -1,8 +1,11 @@
 # Vertigo
 
-Converts any raster image to a SVG, using two different "shaders".
+A tool that transforms raster images into vectors using two distinct shaders - circular dot grid and variable-width spiral.
 
-[Play with the demo](https://stanko.github.io/vertigo/)
+- [Demo](https://stanko.github.io/vertigo/)
 
-| [![Vertigo demo](vertigo.png)](https://stanko.github.io/vertigo/) | [![Vertigo demo](spiral.png)](https://stanko.github.io/vertigo/#spiral) |
-|---|---|
+[![Vertigo demo](preview.png)](https://stanko.github.io/vertigo/)
+
+If you find it useful, I also write about similar topics on [my blog](https://muffinman.io).
+
+Feel free to use any images produced by Vertigo as you please, but it would be greatly appreciated if you could include a link back to the website.

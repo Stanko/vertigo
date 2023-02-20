@@ -42,7 +42,11 @@ export function drawImageOnCanvas(imageSrc: string, size: 500, callback: (canvas
   canvas.width = size;
   canvas.height = size;
 
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", {
+    // This option will save memory on frequent getImageData calls Vertigo is making
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext#willreadfrequently
+    willReadFrequently: true,
+  });
 
   const image = new Image();
   image.addEventListener("load", () => {

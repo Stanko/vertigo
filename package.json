@@ -3,17 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "esbuild docs/src/* --bundle --servedir=docs --outdir=docs/vertigo/build",
-    "build": "esbuild docs/src/* --bundle --outdir=docs/build --minify --sourcemap"
+    "start": "npm run serve & npm run watch-scss",
+    "build": "npm run build-js && npm run build-scss",
+    "serve": "esbuild docs/src/* --bundle --servedir=docs --outdir=docs/vertigo/build",
+    "build-js": "esbuild docs/src/* --bundle --outdir=docs/build --minify --sourcemap",
+    "watch-scss": "sass docs/styles/docs.scss:docs/styles/docs.css --style=compressed --watch",
+    "build-scss": "sass docs/styles/docs.scss:docs/styles/docs.css --style=compressed"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "esbuild": "^0.17.8",
     "file-saver": "^2.0.5",
+    "sass": "^1.58.3",
     "typescript": "^4.9.5"
   }
 }

@@ -1,6 +1,6 @@
 # Vertigo
 
-A tool that transforms raster images into vectors using two distinct shaders - circular dot grid and variable-width spiral.
+A tool that transforms raster images into vectors using two distinct _shaders_ - circular dot grid and variable-width spiral.
 
 - [Demo](https://stanko.github.io/vertigo/)
 

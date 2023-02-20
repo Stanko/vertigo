@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run serve & npm run watch-scss",
     "build": "npm run build-js && npm run build-scss",
-    "serve": "esbuild docs/src/* --bundle --servedir=docs --outdir=docs/vertigo/build",
+    "serve": "esbuild docs/src/* --bundle --servedir=docs --outdir=docs/vertigo/build --sourcemap",
     "build-js": "esbuild docs/src/* --bundle --outdir=docs/build --minify --sourcemap",
     "watch-scss": "sass docs/styles/docs.scss:docs/styles/docs.css --style=compressed --watch",
     "build-scss": "sass docs/styles/docs.scss:docs/styles/docs.css --style=compressed"

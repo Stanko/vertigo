@@ -56,19 +56,15 @@ const bezierCommand = (point, i, a) => {
   return `C ${cps.x},${cps.y} ${cpe.x},${cpe.y} ${point.x},${point.y}`;
 };
 
-export default function smoothLine(points, shouldClose = true) {
+export default function smoothLine(points, firstCommand = "M") {
   // build the d attributes by looping over the points
   const d = points.reduce((acc, point, i, a) => {
     if (i === 0) {
-      return `M ${point.x},${point.y}`;
+      return `${firstCommand} ${point.x},${point.y}`;
     }
 
     return `${acc} ${bezierCommand(point, i, a)}`;
   }, "");
 
-  if (shouldClose) {
-    return `${d} Z`;
-  } else {
-    return d;
-  }
+  return d;
 }

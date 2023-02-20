@@ -101,7 +101,7 @@ export default function convertImageToDots(
     callback(convertedImage);
 
     if (DEBUG) {
-      ctx.strokeStyle = "orange";
+      ctx.strokeStyle = "rgb(255, 180, 0, 0.3)";
 
       helperRectangles.forEach((rect) => {
         ctx.strokeRect(rect.x, rect.y, rectangleSize, rectangleSize);

@@ -24,7 +24,6 @@ export default class VertigoSpiral {
     this.svg = createSvg(SVG_SIZE, false, "vertigo vertigo--spiral");
 
     this.svgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    this.svgPath.setAttribute("class", "Spiral-path");
 
     this.svg.appendChild(this.svgPath);
   }
@@ -135,9 +134,7 @@ export default class VertigoSpiral {
       pathInner.push(od[1]);
     }
 
-    const pathPoints = [...pathOuter, ...pathInner.reverse()];
-
-    return smoothLine(pathPoints);
+    return smoothLine(pathOuter, "M") + smoothLine(pathInner.reverse(), "L") + "Z";
   }
 
   private generatePlottingHelpers(image) {
@@ -150,7 +147,7 @@ export default class VertigoSpiral {
 
     const centralLinePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
     centralLinePath.setAttribute("class", "plotting-helper");
-    centralLinePath.setAttribute("d", smoothLine(centralLine, false));
+    centralLinePath.setAttribute("d", smoothLine(centralLine));
 
     this.svg.appendChild(centralLinePath);
 

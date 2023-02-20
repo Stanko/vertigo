@@ -82,6 +82,7 @@ const DOTS_OPTIONS_INPUTS = [
     name: "plottingStep",
     value: 0,
     step: 0.1,
+    helperText: "If not zero, this option will create concentric circles which are useful for for pen plotting.",
   },
 ];
 
@@ -201,6 +202,7 @@ const SPIRAL_OPTIONS_INPUTS = [
     name: "plottingStep",
     value: 0,
     step: 0.5,
+    helperText: "If not zero, this option will create concentric paths which are useful for for pen plotting.",
   },
 ];
 
@@ -256,4 +258,18 @@ Array.prototype.slice.call(exampleButtons).forEach((button) => {
       spiral.convertImage(imageURL);
     }
   });
+});
+
+// --------- DEBUG
+
+const toggleDebugButton = document.querySelector(".toggle-debug");
+
+toggleDebugButton.addEventListener("click", () => {
+  if (!!window.localStorage.getItem("VERTIGO_DEBUG")) {
+    window.localStorage.removeItem("VERTIGO_DEBUG");
+  } else {
+    window.localStorage.setItem("VERTIGO_DEBUG", "1");
+  }
+
+  window.location.replace("/");
 });

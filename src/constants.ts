@@ -2,7 +2,7 @@
 
 export const isClient = typeof window !== "undefined";
 
-export const DEBUG = isClient ? window.location.hash === "#debug" : false;
+export const DEBUG = isClient ? !!window.localStorage.getItem("VERTIGO_DEBUG") : false;
 
 export const MAXIMUM_BRIGHTNESS = 255;
 

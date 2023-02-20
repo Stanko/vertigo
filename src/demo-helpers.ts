@@ -1,12 +1,17 @@
 import { saveAs } from "file-saver";
 
-export function createOption({ callback, label, max, min, name, step = 1, value }) {
+export function createOption({ callback, label, max, min, name, step = 1, value, helperText = "" }) {
   const focus = document.createElement("span");
   focus.className = "option-focus";
 
   const labelName = document.createElement("label");
   labelName.className = "option-name";
   labelName.innerHTML = `${label}: `;
+
+  if (helperText) {
+    labelName.classList.add("option-name--has-helper-text");
+    labelName.title = helperText;
+  }
 
   const spanValue = document.createElement("span");
   spanValue.innerHTML = ` ${value}`;
